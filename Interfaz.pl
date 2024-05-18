@@ -34,6 +34,7 @@ mostrarImagen(V,D,M):- new(I, image(V)),
                 send(@name_prompter, show, @off),
                 RawName \== @nil,
                 Name = RawName.
+        
         %MostrarInfromacionDeLosPlantas
         ask_name_obtiene:-
                   ask_name('Ingresa el nombre de la planta','Nombre de la planta:', Planta),
@@ -74,13 +75,13 @@ start :-
                 send_list(Iniciar1,append,
                       [menu_item('Buscar planta',message(@prolog,ask_name_Buscar_Planta))
                       ]),
-                %mostrar_lista_de_plantas_medicinales               
+                %mostrar_lista_de_plantas_medicinales        
                 send_list(Iniciar1, append,
                       [menu_item('Listar plantas medicinales', message(@prolog, pp_listar_plantas))
                       ]),
-        mostrarImagen('C:/Proyecto/yerberito/Yerberito.jpg',D,Menu),
+        mostrarImagen('C:/Prolog/img/0_Yerberito.jpg',D,Menu),
         send(D,open,point(0,0)),
-         consult('C:/Proyecto/Data.pl'),
+         consult('C:/Prolog/Data.pl'),
            nl.
 
 
@@ -141,7 +142,7 @@ pp_significado_De_Terminos(Termino):-
     send(D, colour, colour(black)),
     send(D, display, text('Significado del termino', center, normal), point(20, 5)),
     %ObtenerElSignificadoDeLaPalabra
-    significa(Termino, Significado),
+    accion_efecto(Termino, Significado),
     send(D, open, point(300, 200)),
     %EtiquetasParaPresentacionDeDatos
     send(D, display, text('Termino: ', center, normal), point(20,35)),
@@ -174,3 +175,28 @@ pp_listar_plantas :-
     send(D, display, text('---Lista de plantas medicinales---', center, normal), point(200, 20)).
 
 
+% Buscar una planta
+pp_Buscador_plantas(Planta):-
+     atom_concat('Info de una planta', Planta, Titulo),
+    new(D, dialog(Titulo)),
+    send(D, size, size(400,500)),
+    send(D, colour, colour(black)),
+    %EstoSeUsaParaMostrarLaImagenDespues
+    send(D, append, new(Menu, menu_bar)),
+    %BuscarTodasLasVecesQueLaPlantaEstaLigadaConUnMalestar
+    findall(Malestar, usado_para_tratar(Planta, Malestar), Enfermedades),
+    send(D, open, point(300, 200)),
+    %MostrarPlantaSeguidoDelNombre
+    send(D, display, text('Planta: ', center, normal), point(200,35)),
+    send(D, display, text(Planta, center, normal), point(270,35)),
+    %MostrarEtiquetaDeMalestaresParaTratar
+    send(D, display, text('---Ayuda a tratar/beneficiar---', center, normal), point(200,60)),
+    nl,
+    %ConvertirListaDeEnfermedadesAStringConInterlineado
+    atomic_list_concat(Enfermedades, '\n', EnfermedadesStr),
+    %MostrarLosResultadosDeLaListaEnLaVentana
+    send(D, display, text(EnfermedadesStr, center, normal), point(200,80)),
+    %MostrarLaImagenDeLaPlanta
+    unirPlantaImagen(Planta, Foto),
+    mostrarImagen(Foto, D, Menu),
+    nl.
