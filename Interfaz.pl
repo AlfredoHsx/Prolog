@@ -62,7 +62,7 @@ mostrarImagen(V,D,M):- new(I, image(V)),
         
 start :-
         %IniciaElProgramaComoTal
-        new(D,dialog('El yerberito ilustrado -Alfredo')),
+        new(D,dialog('El yerberito ilustrado -Alfredo Agustin')),
         send(D,size,size(400,800)),
         send(D,colour,colour(red)),
         send(D, append, new(Menu, menu_bar)),        
