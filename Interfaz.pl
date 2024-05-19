@@ -44,6 +44,10 @@ mostrarImagen(V,D,M):- new(I, image(V)),
         ask_name_info_medicamento:-
                   ask_name('Informacion de un medicamento','Nombre del medicamento:', Medicamento),
                   pp_info_medicamento(Medicamento).
+
+        ask_name_info_enfermedad:-
+                  ask_name('Informacion de una enfermedad','Nombre de la enfermedad:', Enfermedad),
+                  pp_info_enfermedad(Enfermedad).
                   
 
         ask_name_enfermedades_curadas_por:-
@@ -59,65 +63,68 @@ mostrarImagen(V,D,M):- new(I, image(V)),
                   pp_listar_plantas_propiedad(Propiedad).
 
                   
-        
-start :-
-        %IniciaElProgramaComoTal
-        new(D,dialog('El yerberito ilustrado -Alfredo Agustin')),
-        send(D,size,size(400,800)),
-        send(D,colour,colour(red)),
-        send(D, append, new(Menu, menu_bar)),        
-        send(Menu,append,new(Iniciar1,popup('Menu: '))),
-                %Información de una planta en específico
-                send_list(Iniciar1,append,
-                      [menu_item('Consultar una planta',message(@prolog,ask_name_info_planta))
-                      ]),
-                send_list(Iniciar1,append,
-                      [menu_item('Consultar un medicamento',message(@prolog,ask_name_info_medicamento))
-                      ]),
-                %Mostrar_medicamento_que_produce_la_planta
-                send_list(Iniciar1,append,
-                      [menu_item('Plantas segun sus propiedades',message(@prolog,ask_propiedad_plantas))
-                      ]),
-                send_list(Iniciar1, append,
-                      [menu_item('Listar elementos de las plantas', message(@prolog, pp_listar_elementos))
-                      ]),
-                %mostrar_lista_de_propiedades_y_efectos_de_las_plantas
-                send_list(Iniciar1, append,
-                      [menu_item('Listar elementos propiedades y sus efectos', message(@prolog, pp_listar_propiedades_efectos))
-                      ]),
-                %Mostar_enfermedades_que_cura_x_plnata
-                send_list(Iniciar1,append,
-                      [menu_item('Enfermedades cuaradas por (Planta)',message(@prolog,ask_name_enfermedades_curadas_por))
-                      ]),
-                %Buscar_significado_de_los_terminos
-                send_list(Iniciar1,append,
-                      [menu_item('Significado de terminos',message(@prolog,ask_name_Termino_a_buscar))
-                      ]),
-                %mostrar_lista_de_plantas_medicinales        
-                send_list(Iniciar1, append,
-                      [menu_item('Listar de plantas que producen medicamentos', message(@prolog, pp_produce_medicamento))
-                      ]),
-                %mostrar_lista_de_plantas_medicinales        
-                send_list(Iniciar1, append,
-                      [menu_item('Listar plantas medicinales', message(@prolog, pp_listar_plantas))
-                      ]),
-                send_list(Iniciar1,append,
-                      [menu_item('Lista de medicamentos',message(@prolog,pp_lista_medicamentos))
-                      ]),
-                send_list(Iniciar1,append,
-                      [menu_item('Lista de enfermedades',message(@prolog,pp_lista_padecimientos))
-                      ]),
-                send_list(Iniciar1,append,
-                      [menu_item('Lista de origenes',message(@prolog,pp_lista_origenes))
-                      ]),
-                %mostrar_lista_de_plantas_que pertenecen al botiquin        
-                send_list(Iniciar1, append,
-                      [menu_item('Botiquin', message(@prolog, pp_botiquin))
-                      ]),
-        mostrarImagen('C:/Prolog/img/0_Yerberito.jpg',D,Menu),
-        send(D,open,point(0,0)),
-         consult('C:/Prolog/Data.pl'),
-           nl.
+%##################### METODO PRINCIPAL #########################       
+    start :-
+            %IniciaElProgramaComoTal
+            new(D,dialog('El yerberito ilustrado - Alfredo Agustin')),
+            send(D,size,size(400,800)),
+            send(D,colour,colour(red)),
+            send(D, append, new(Menu, menu_bar)),        
+            send(Menu,append,new(Iniciar1,popup('Menu: '))),
+                    %Información de una planta en específico
+                    send_list(Iniciar1,append,
+                        [menu_item('Consultar una planta',message(@prolog,ask_name_info_planta))
+                        ]),
+                    send_list(Iniciar1,append,
+                        [menu_item('Consultar un medicamento',message(@prolog,ask_name_info_medicamento))
+                        ]),
+                    send_list(Iniciar1,append,
+                        [menu_item('Consultar una enfermedad',message(@prolog,ask_name_info_enfermedad))
+                        ]),
+                    %Mostrar_medicamento_que_produce_la_planta
+                    send_list(Iniciar1,append,
+                        [menu_item('Plantas segun sus propiedades',message(@prolog,ask_propiedad_plantas))
+                        ]),
+                    send_list(Iniciar1, append,
+                        [menu_item('Listar elementos de las plantas', message(@prolog, pp_listar_elementos))
+                        ]),
+                    %mostrar_lista_de_propiedades_y_efectos_de_las_plantas
+                    send_list(Iniciar1, append,
+                        [menu_item('Listar elementos propiedades y sus efectos', message(@prolog, pp_listar_propiedades_efectos))
+                        ]),
+                    %Mostar_enfermedades_que_cura_x_plnata
+                    send_list(Iniciar1,append,
+                        [menu_item('Enfermedades cuaradas por (Planta)',message(@prolog,ask_name_enfermedades_curadas_por))
+                        ]),
+                    %Buscar_significado_de_los_terminos
+                    send_list(Iniciar1,append,
+                        [menu_item('Significado de terminos',message(@prolog,ask_name_Termino_a_buscar))
+                        ]),
+                    %mostrar_lista_de_plantas_medicinales        
+                    send_list(Iniciar1, append,
+                        [menu_item('Listar de plantas que producen medicamentos', message(@prolog, pp_produce_medicamento))
+                        ]),
+                    %mostrar_lista_de_plantas_medicinales        
+                    send_list(Iniciar1, append,
+                        [menu_item('Listar plantas medicinales', message(@prolog, pp_listar_plantas))
+                        ]),
+                    send_list(Iniciar1,append,
+                        [menu_item('Lista de medicamentos',message(@prolog,pp_lista_medicamentos))
+                        ]),
+                    send_list(Iniciar1,append,
+                        [menu_item('Lista de enfermedades',message(@prolog,pp_lista_padecimientos))
+                        ]),
+                    send_list(Iniciar1,append,
+                        [menu_item('Lista de origenes',message(@prolog,pp_lista_origenes))
+                        ]),
+                    %mostrar_lista_de_plantas_que pertenecen al botiquin        
+                    send_list(Iniciar1, append,
+                        [menu_item('Botiquin', message(@prolog, pp_botiquin))
+                        ]),
+            mostrarImagen('C:/Prolog/img/0_Yerberito.jpg',D,Menu),
+            send(D,open,point(0,0)),
+            consult('C:/Prolog/Data.pl'),
+            nl.
 
 %##################### TARJETA DE INFORMACIÓN DE UNA PLANTA #########################       
     pp_info_planta(Planta):-
@@ -197,6 +204,25 @@ start :-
         send(D, display, text('Efectos: ', center, bold), point(10,50)),
         send(D, display, text(EfectosStr, center, normal), point(20,65)).
 
+%##################### TARJETA DE INFORMACIÓN DE UNA ENFERMEDAD #########################       
+    pp_info_enfermedad(Enfermedad):-
+        %Datos 
+        findall(Planta, usado_para_tratar(Planta, Enfermedad), Plantas),
+        atomic_list_concat(Plantas, '\n', PlantasStr),
+        
+        atom_concat('Informacion sobre: ', Enfermedad, Titulo),
+        new(D, dialog(Titulo)),
+        send(D, size, size(400,500)),
+        send(D, colour, colour(black)),
+        
+        %BuscarTodasLasVecesQueLaPlantaEstaLigadaConUnMalestar
+        send(D, open, point(300, 200)),
+
+        send(D, display, text('Nombre: ', center, bold), point(10,15)),
+        send(D, display, text(Enfermedad, center, normal), point(20,30)),
+
+        send(D, display, text('Plantas utilizadas en el tratamiento: ', left, bold), point(10,50)),
+        send(D, display, text(PlantasStr, left, normal), point(20,65)).
 
 %##################### LISTA DE PLANTAS CON SUS ELEMENTOS #########################       
     pp_listar_elementos:-
@@ -240,18 +266,24 @@ start :-
         new(D, dialog('Propiedades de la planta y sus efectos')),
         send(D, size, size(400, 400)),
         send(D, colour, colour(black)),
+        
         % Buscar todas las propiedades y sus efectos
         findall([Propiedad, Efecto], propiedad_efecto(Propiedad, Efecto), Resultados),
+        
         % Crear una ventana con scroll
         send(D, append, new(text('Propiedades de la plantas y su efectos:', center, normal))),
         new(W, window('Propiedades de la plantas y sus efectos', size(380, 370))),
         send(W, scrollbars, vertical),  % Agregar barra de scroll vertical
+        
         % Mostrar los resultados en la ventana con scroll
         mostrar_resultados(Resultados, W, 10),
+        
         % Agregar la ventana con scroll al diálogo
         send(D, append, W),
+        
         % Abrir el diálogo
         send(D, open, point(300, 200)).
+        
         % Mostrar los resultados en la ventana aplicando recursividad.
         mostrar_resultados([], _, _).
         mostrar_resultados([[Propiedad, Efecto] | Resto], W, Y) :-

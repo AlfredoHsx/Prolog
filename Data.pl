@@ -1765,3 +1765,197 @@ propiedad_efecto('Tonica', 'Fortalece el organismo').
 propiedad_efecto('Toxica', 'Es venenosa').
 propiedad_efecto('Vermifuga', 'Expulsa gusanos intestinales').
 propiedad_efecto('Vulneraria', 'Cura llagas y heridas').
+
+se_usa_como('Abrojo', 'Cocimiento').
+se_usa_como('Acacia', 'Infusion').
+se_usa_como('Acacia', 'Maceracion').
+se_usa_como('Acacia', 'Jarabe').
+se_usa_como('Acanto', 'Cocimiento').
+se_usa_como('Acedera', 'Cocimiento').
+se_usa_como('Aceite de oliva', 'Cocimiento').
+se_usa_como('Aceitilla', 'Cocimiento').
+se_usa_como('Acelga', 'Cocimiento').
+se_usa_como('Achicoria', 'Cocimiento').
+se_usa_como('Aconito', 'Cocimiento').
+se_usa_como('Agar-agar', 'Cocimiento').
+se_usa_como('Aguacate', 'Cocimiento').
+se_usa_como('Ajenjo', 'Cocimiento').
+se_usa_como('Ajo', 'Cocimiento').
+se_usa_como('Albahaca', 'Cocimiento').
+se_usa_como('Alcachofa', 'Cocimiento').
+se_usa_como('Alcanfor', 'Cocimiento').
+se_usa_como('Alfalfa', 'Cocimiento').
+se_usa_como('Alholva', 'Cocimiento').
+se_usa_como('Alpiste', 'Cocimiento').
+se_usa_como('Anacahuite', 'Cocimiento').
+se_usa_como('Anagalida', 'Cocimiento').
+se_usa_como('Anis estrella', 'Cocimiento').
+se_usa_como('Anis', 'Cocimiento').
+se_usa_como('Apio', 'Cocimiento').
+se_usa_como('Arnica', 'Cocimiento').
+se_usa_como('Arroz', 'Cocimiento').
+se_usa_como('Artemisa', 'Cocimiento').
+se_usa_como('Avena', 'Cocimiento').
+se_usa_como('Azafran', 'Cocimiento').
+se_usa_como('Azahar', 'Cocimiento').
+se_usa_como('Beleño', 'Cocimiento').
+se_usa_como('Belladona', 'Cocimiento').
+se_usa_como('Benjui', 'Cocimiento').
+se_usa_como('Berro', 'Cocimiento').
+se_usa_como('Betonia', 'Cocimiento').
+se_usa_como('Boldo', 'Cocimiento').
+se_usa_como('Borraja', 'Cocimiento').
+se_usa_como('Brionia', 'Cocimiento').
+se_usa_como('Cabellos de elote', 'Cocimiento').
+se_usa_como('Calendula', 'Cocimiento').
+se_usa_como('Canela', 'Cocimiento').
+se_usa_como('Capulin', 'Cocimiento').
+se_usa_como('Cardo santo', 'Cocimiento').
+se_usa_como('Cardo', 'Cocimiento').
+se_usa_como('Cascara sagrada', 'Cocimiento').
+se_usa_como('Castaño de indias', 'Cocimiento').
+se_usa_como('Cebada', 'Cocimiento').
+se_usa_como('Cebolla', 'Cocimiento').
+se_usa_como('Cedron', 'Cocimiento').
+se_usa_como('Cerezo', 'Cocimiento').
+se_usa_como('Chaparro amargoso', 'Cocimiento').
+se_usa_como('Chia', 'Cocimiento').
+se_usa_como('Chicalote', 'Cocimiento').
+se_usa_como('Cilantro', 'Cocimiento').
+se_usa_como('Cipres', 'Cocimiento').
+se_usa_como('Ciruela', 'Cocimiento').
+se_usa_como('Clavo', 'Cocimiento').
+se_usa_como('Cola de caballo', 'Cocimiento').
+se_usa_como('Colchico', 'Cocimiento').
+se_usa_como('Coquito de aceite', 'Cocimiento').
+se_usa_como('Crataegus', 'Cocimiento').
+se_usa_como('Cuachalalate', 'Cocimiento').
+se_usa_como('Cuasia', 'Cocimiento').
+se_usa_como('Cuercillo', 'Cocimiento').
+se_usa_como('Damiana', 'Cocimiento').
+se_usa_como('Diente de leon', 'Cocimiento').
+se_usa_como('Digital', 'Cocimiento').
+se_usa_como('Doradilla', 'Cocimiento').
+se_usa_como('Encina', 'Cocimiento').
+se_usa_como('Encino rojo', 'Cocimiento').
+se_usa_como('Enebro', 'Cocimiento').
+se_usa_como('Epazote', 'Cocimiento').
+se_usa_como('Esparrago', 'Cocimiento').
+se_usa_como('Espinacas', 'Cocimiento').
+se_usa_como('Espino', 'Cocimiento').
+se_usa_como('Espinosilla', 'Cocimiento').
+se_usa_como('Estafiate', 'Cocimiento').
+se_usa_como('Eucalipto', 'Cocimiento').
+se_usa_como('Fenogreco', 'Cocimiento').
+se_usa_como('Fresno', 'Cocimiento').
+se_usa_como('Gelsemio', 'Cocimiento').
+se_usa_como('Genciana', 'Cocimiento').
+se_usa_como('Geranio', 'Cocimiento').
+se_usa_como('Germen de trigo', 'Cocimiento').
+se_usa_como('Girasol', 'Cocimiento').
+se_usa_como('Gobernadora', 'Cocimiento').
+se_usa_como('Gordolobo', 'Cocimiento').
+se_usa_como('Grama', 'Cocimiento').
+se_usa_como('Granada', 'Cocimiento').
+se_usa_como('Guayaba', 'Cocimiento').
+se_usa_como('Hamamelis', 'Cocimiento').
+se_usa_como('Helecho macho', 'Cocimiento').
+se_usa_como('Helecho', 'Cocimiento').
+se_usa_como('Hiedra', 'Cocimiento').
+se_usa_como('Hierba del pollo', 'Cocimiento').
+se_usa_como('Hierbabuena', 'Cocimiento').
+se_usa_como('Higuera', 'Cocimiento').
+se_usa_como('Hinojo', 'Cocimiento').
+se_usa_como('Hisopol', 'Cocimiento').
+se_usa_como('Ipecacuana', 'Cocimiento').
+se_usa_como('Jengibre', 'Cocimiento').
+se_usa_como('Jugo de limon', 'Cocimiento').
+se_usa_como('Jugo de toronja', 'Cocimiento').
+se_usa_como('Jugo de vastago de platano morado', 'Cocimiento').
+se_usa_como('Laurel', 'Cocimiento').
+se_usa_como('Lavanda', 'Cocimiento').
+se_usa_como('Leche de higuera', 'Cocimiento').
+se_usa_como('Lechuga', 'Cocimiento').
+se_usa_como('Limon', 'Cocimiento').
+se_usa_como('Linaza', 'Cocimiento').
+se_usa_como('Lino', 'Cocimiento').
+se_usa_como('Llanten', 'Cocimiento').
+se_usa_como('Lupulo', 'Cocimiento').
+se_usa_como('Malva', 'Cocimiento').
+se_usa_como('Malvavisco', 'Cocimiento').
+se_usa_como('Manzanilla', 'Cocimiento').
+se_usa_como('Marrubio', 'Cocimiento').
+se_usa_como('Mastuerzo', 'Cocimiento').
+se_usa_como('Matarique', 'Cocimiento').
+se_usa_como('Mate', 'Cocimiento').
+se_usa_como('Melisa', 'Cocimiento').
+se_usa_como('Membrillo', 'Cocimiento').
+se_usa_como('Menta', 'Cocimiento').
+se_usa_como('Mezquite', 'Cocimiento').
+se_usa_como('Miel', 'Cocimiento').
+se_usa_como('Milenrama', 'Cocimiento').
+se_usa_como('Monacillo', 'Cocimiento').
+se_usa_como('Mostaza', 'Cocimiento').
+se_usa_como('Muerdago', 'Cocimiento').
+se_usa_como('Muicle', 'Cocimiento').
+se_usa_como('Naranja', 'Cocimiento').
+se_usa_como('Nogal', 'Cocimiento').
+se_usa_como('Nuez de kola', 'Cocimiento').
+se_usa_como('Nuez vomica', 'Cocimiento').
+se_usa_como('Ocote', 'Cocimiento').
+se_usa_como('Oregano', 'Cocimiento').
+se_usa_como('Ortiga', 'Cocimiento').
+se_usa_como('Papaloquelite', 'Cocimiento').
+se_usa_como('Papaya', 'Cocimiento').
+se_usa_como('Pasiflora', 'Cocimiento').
+se_usa_como('Perejil', 'Cocimiento').
+se_usa_como('Pimiento', 'Cocimiento').
+se_usa_como('Pingüica', 'Cocimiento').
+se_usa_como('Pino', 'Cocimiento').
+se_usa_como('Pirul', 'Cocimiento').
+se_usa_como('Prodigiosa', 'Cocimiento').
+se_usa_como('Puerro', 'Cocimiento').
+se_usa_como('Quina amarilla', 'Cocimiento').
+se_usa_como('Quina roja', 'Cocimiento').
+se_usa_como('Quina', 'Cocimiento').
+se_usa_como('Rabano', 'Cocimiento').
+se_usa_como('Retama', 'Cocimiento').
+se_usa_como('Ricino', 'Cocimiento').
+se_usa_como('Roble', 'Cocimiento').
+se_usa_como('Romero', 'Cocimiento').
+se_usa_como('Rosal', 'Cocimiento').
+se_usa_como('Ruda', 'Cocimiento').
+se_usa_como('Ruibarbo', 'Cocimiento').
+se_usa_como('Sabina', 'Cocimiento').
+se_usa_como('Salvia', 'Cocimiento').
+se_usa_como('Sanguinaria', 'Cocimiento').
+se_usa_como('Sauco', 'Cocimiento').
+se_usa_como('Semilla de calabaza', 'Cocimiento').
+se_usa_como('Siempreviva', 'Cocimiento').
+se_usa_como('Simonillo', 'Cocimiento').
+se_usa_como('Tabachin', 'Cocimiento').
+se_usa_como('Tabaco', 'Cocimiento').
+se_usa_como('Tabaquillo', 'Cocimiento').
+se_usa_como('Tamarindo', 'Cocimiento').
+se_usa_como('Te de limon', 'Cocimiento').
+se_usa_como('Te negro', 'Cocimiento').
+se_usa_como('Tecomasuchil', 'Cocimiento').
+se_usa_como('Tejocote', 'Cocimiento').
+se_usa_como('Tila', 'Cocimiento').
+se_usa_como('Tlachichinole', 'Cocimiento').
+se_usa_como('Toloache', 'Cocimiento').
+se_usa_como('Tomillo', 'Cocimiento').
+se_usa_como('Toronja', 'Cocimiento').
+se_usa_como('Toronjil', 'Cocimiento').
+se_usa_como('Tronadora', 'Cocimiento').
+se_usa_como('Uva', 'Cocimiento').
+se_usa_como('Valeriana', 'Cocimiento').
+se_usa_como('Verbena', 'Cocimiento').
+se_usa_como('Violeta', 'Cocimiento').
+se_usa_como('Yohimbe', 'Cocimiento').
+se_usa_como('Zanahoria', 'Cocimiento').
+se_usa_como('Zarzamora', 'Cocimiento').
+se_usa_como('Zarzaparrilla', 'Cocimiento').
+se_usa_como('Zoapatle', 'Cocimiento').
+se_usa_como('Opio', 'Cocimiento').
+se_usa_como('Barbasco', 'Cocimiento').
