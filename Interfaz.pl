@@ -88,6 +88,9 @@ mostrarImagen(V,D,M):- new(I, image(V)),
                     send_list(Iniciar1, append,
                         [menu_item('Listar elementos de las plantas', message(@prolog, pp_listar_elementos))
                         ]),
+                    send_list(Iniciar1, append,
+                        [menu_item('Lista de plantas y su forma de preparacion', message(@prolog, pp_listar_plantas_uso))
+                        ]),
                     %mostrar_lista_de_propiedades_y_efectos_de_las_plantas
                     send_list(Iniciar1, append,
                         [menu_item('Listar elementos propiedades y sus efectos', message(@prolog, pp_listar_propiedades_efectos))
@@ -133,6 +136,7 @@ mostrarImagen(V,D,M):- new(I, image(V)),
         planta_origen(Planta, Origen),
         efectos_planta(Planta, Efectos),
         findall(Medicamento, planta_obtiene(Planta, Medicamento), Medicamentos),
+        findall(FormaUso, se_usa_como(Planta, FormaUso), FormasUso),
 
         atom_concat('Informacion sobre: ', Planta, Titulo),
         new(D, dialog(Titulo)),
@@ -159,24 +163,21 @@ mostrarImagen(V,D,M):- new(I, image(V)),
         atomic_list_concat(Enfermedades, '\n', EnfermedadesStr),
         atomic_list_concat(Efectos, '\n', EfectosStr),
         atomic_list_concat(Medicamentos, '\n', MedicamentosStr),
+        atomic_list_concat(FormasUso, '\n', FormasUsoStr),
 
         %MostrarEtiquetaDeMalestaresParaTratar
-        send(D, display, text('Enfermedades que cura:', left, bold), point(10,170)),
-        nl,
-        
-        %MostrarLosResultadosDeLaListaEnLaVentana
+        send(D, display, text('Enfermedades que cura:', left, bold), point(10,170)), nl,
         send(D, display, text(EnfermedadesStr, left, normal), point(10,185)),
 
         %MostrarEtiquetaDeMalestaresParaTratar
-        send(D, display, text('Efectos:', left, bold), point(200,170)),
-        nl,
-        
-        %MostrarLosResultadosDeLaListaEnLaVentana
+        send(D, display, text('Efectos:', left, bold), point(200,170)), nl,
         send(D, display, text(EfectosStr, left, normal), point(200,185)),
 
-        send(D, display, text('Medicamentos que produce:', left, bold), point(10,270)),
-        nl,
+        send(D, display, text('Medicamentos que produce:', left, bold), point(10,270)),nl,
         send(D, display, text(MedicamentosStr, left, normal), point(10,285)),
+
+        send(D, display, text('Formas de uso:', left, bold), point(200,270)),nl,
+        send(D, display, text(FormasUsoStr, left, normal), point(200,285)),    
         
         %MostrarLaImagenDeLaPlanta
         unirPlantaImagen(Planta, Foto),
@@ -207,22 +208,51 @@ mostrarImagen(V,D,M):- new(I, image(V)),
 %##################### TARJETA DE INFORMACIÓN DE UNA ENFERMEDAD #########################       
     pp_info_enfermedad(Enfermedad):-
         %Datos 
+        % Obtener la lista de plantas que se usan para tratar la enfermedad
         findall(Planta, usado_para_tratar(Planta, Enfermedad), Plantas),
-        atomic_list_concat(Plantas, '\n', PlantasStr),
+        % Obtener la lista de formas de uso de las plantas
+        findall(FormaUso, (member(Planta, Plantas), se_usa_como(Planta, FormaUso)), FormasUso),
+        % Combinar las listas de plantas y formas de uso en una lista de pares [Planta, FormaUso]
+        combinar_listas(Plantas, FormasUso, Resultados),
+        % Mostrar la información en el diálogo
+        % mostrar_info_enfermedad(Enfermedad, Resultados)
         
         atom_concat('Informacion sobre: ', Enfermedad, Titulo),
         new(D, dialog(Titulo)),
         send(D, size, size(400,500)),
         send(D, colour, colour(black)),
         
-        %BuscarTodasLasVecesQueLaPlantaEstaLigadaConUnMalestar
-        send(D, open, point(300, 200)),
+        send(D, display, text('Nombre:', left, bold), point(10,0)),
+        %send(D, display, text(Enfermedad, center, normal), point(20,50)),
+        send(D, append, text(Enfermedad, center, normal)),
+        % Crear una ventana con scroll
+        send(D, append, text('Propiedades de la plantas y su uso:', left, bold)),
+        new(W, window('Propiedades de la plantas y sus uso', size(300, 300))),
+        send(W, scrollbars, vertical),  % Agregar barra de scroll vertical
+        
+        % Mostrar los resultados en la ventana con scroll
+        mostrar_resultados2(Resultados, W, 10),
+        
+        % Agregar la ventana con scroll al diálogo
+        send(D, append, W),
 
-        send(D, display, text('Nombre: ', center, bold), point(10,15)),
-        send(D, display, text(Enfermedad, center, normal), point(20,30)),
+        % Abrir el diálogo
+        send(D, open, point(300, 200)).
+        
+    % Mostrar los resultados en la ventana aplicando recursividad.
+        mostrar_resultados2([], _, _).
+        mostrar_resultados2([[Planta, FormaUso] | Resto], W, Y) :-
+            send(W, display, text(Planta, left, normal), point(10, Y)),
+            send(W, display, text(FormaUso, left, normal), point(150, Y)),
+            NewY is Y + 15,  % Incrementar la posición Y para la siguiente línea
+            mostrar_resultados2(Resto, W, NewY).
 
-        send(D, display, text('Plantas utilizadas en el tratamiento: ', left, bold), point(10,50)),
-        send(D, display, text(PlantasStr, left, normal), point(20,65)).
+    % Combina dos listas en una lista de pares [X, Y]
+        combinar_listas([], [], []).
+        combinar_listas([X|Xs], [Y|Ys], [[X,Y]|Resto]) :-
+            combinar_listas(Xs, Ys, Resto).
+        combinar_listas(_, _, []).  % En caso de que las listas no tengan la misma longitud
+
 
 %##################### LISTA DE PLANTAS CON SUS ELEMENTOS #########################       
     pp_listar_elementos:-
@@ -292,6 +322,28 @@ mostrarImagen(V,D,M):- new(I, image(V)),
             NewY is Y + 20,  % Incrementar la posición Y para la siguiente línea
             mostrar_resultados(Resto, W, NewY).
 
+%##################### LISTA DE PLANTAS Y SU USO #########################       
+    pp_listar_plantas_uso :-
+        new(D, dialog('Platas y su forma de preparacion')),
+        send(D, size, size(400, 400)),
+        send(D, colour, colour(black)),
+        
+        % Buscar todas las propiedades y sus efectos
+        findall([Planta, FormaUso], se_usa_como(Planta, FormaUso), Resultados),
+        
+        % Crear una ventana con scroll
+        send(D, append, new(text('Plantas y su forma de preparacion:', left, bold))),
+        new(W, window('Propiedades de la plantas y sus efectos', size(380, 370))),
+        send(W, scrollbars, vertical),  % Agregar barra de scroll vertical
+        
+        % Mostrar los resultados en la ventana con scroll
+        mostrar_resultados(Resultados, W, 10),
+        
+        % Agregar la ventana con scroll al diálogo
+        send(D, append, W),
+        
+        % Abrir el diálogo
+        send(D, open, point(300, 200)).
 
 %##################### LISTA DE PLANTAS QUE PRODUCEN MEDICAMENTOS #########################       
     pp_produce_medicamento:-
@@ -319,37 +371,37 @@ mostrarImagen(V,D,M):- new(I, image(V)),
         send(D, open, point(300, 200)).
 
 %##################### ENFERMEDADES CURADAS CON LAS PLANTAS #########################       
-pp_enfermedades_curadas_por(Planta):-
-    %AsignacionDelNombreParaVentanaEmergente
-     atom_concat('Enfermedades curadas por: ', Planta, Titulo),
-    new(D, dialog(Titulo)),
-    send(D, size, size(400,500)),
-    send(D, colour, colour(black)),
+    pp_enfermedades_curadas_por(Planta):-
+        %AsignacionDelNombreParaVentanaEmergente
+        atom_concat('Enfermedades curadas por: ', Planta, Titulo),
+        new(D, dialog(Titulo)),
+        send(D, size, size(400,500)),
+        send(D, colour, colour(black)),
 
-    %EstoSeUsaParaMostrarLaImagenDespues
-    send(D, append, new(Menu, menu_bar)),
-    
-    %BuscarTodasLasVecesQueLaPlantaEstaLigadaConUnMalestar
-    findall(Malestar, usado_para_tratar(Planta, Malestar), Enfermedades),
-    send(D, open, point(300, 200)),
+        %EstoSeUsaParaMostrarLaImagenDespues
+        send(D, append, new(Menu, menu_bar)),
+        
+        %BuscarTodasLasVecesQueLaPlantaEstaLigadaConUnMalestar
+        findall(Malestar, usado_para_tratar(Planta, Malestar), Enfermedades),
+        send(D, open, point(300, 200)),
 
-    %MostrarPlantaSeguidoDelNombre
-    send(D, display, text('Planta: ', center, normal), point(200,35)),
-    send(D, display, text(Planta, center, normal), point(270,35)),
-    
-    %MostrarEtiquetaDeMalestaresParaTratar
-    send(D, display, text('---Ayuda a tratar/beneficiar---', center, normal), point(200,60)),
-    nl,
-    
-    %ConvertirListaDeEnfermedadesAStringConInterlineado
-    atomic_list_concat(Enfermedades, '\n', EnfermedadesStr),
-    
-    %MostrarLosResultadosDeLaListaEnLaVentana
-    send(D, display, text(EnfermedadesStr, center, normal), point(200,80)),
-    %MostrarLaImagenDeLaPlanta
-    unirPlantaImagen(Planta, Foto),
-    mostrarImagen(Foto, D, Menu),
-    nl.
+        %MostrarPlantaSeguidoDelNombre
+        send(D, display, text('Planta: ', center, normal), point(200,35)),
+        send(D, display, text(Planta, center, normal), point(270,35)),
+        
+        %MostrarEtiquetaDeMalestaresParaTratar
+        send(D, display, text('---Ayuda a tratar/beneficiar---', center, normal), point(200,60)),
+        nl,
+        
+        %ConvertirListaDeEnfermedadesAStringConInterlineado
+        atomic_list_concat(Enfermedades, '\n', EnfermedadesStr),
+        
+        %MostrarLosResultadosDeLaListaEnLaVentana
+        send(D, display, text(EnfermedadesStr, center, normal), point(200,80)),
+        %MostrarLaImagenDeLaPlanta
+        unirPlantaImagen(Planta, Foto),
+        mostrarImagen(Foto, D, Menu),
+        nl.
 
 %##################### LISTA DE TERMINOS Y SIGNIFICADOS #########################       
     pp_significado_De_Terminos(Termino):-
@@ -394,16 +446,21 @@ pp_enfermedades_curadas_por(Planta):-
         send(D, size, size(230, 400)),
         send(D, colour, colour(black)),
         findall(Planta, botiquin(Planta), Plantas),
+        
         %Crear una ventana con scroll
-        send(D, display, text('Plantas que siempre debes tener:', center, normal), point(10, 10)),
+        send(D, display, text('Plantas que siempre debes tener:', left, normal), point(10, 10)),
         new(W, window('Plantas que siempre debes tener: ', size(210, 370))),
         send(W, scrollbars, vertical),  % Agregar barra de scroll vertical
+        
         %Convertir la lista de plantas a string con interlineado
         atomic_list_concat(Plantas, '\n', PlantasStr),
+        
         %Mostrar los resultados de la lista en la ventana con scroll
-        send(W, display, text(PlantasStr, left, normal), point(30, 10)),
+        send(W, display, text(PlantasStr, left, normal), point(10, 0)),
+        
         %Agregar la ventana con scroll al diálogo
         send(D, append, W),
+        
         %Abrir el diálogo
         send(D, open, point(300, 200)).
 
@@ -482,5 +539,6 @@ pp_enfermedades_curadas_por(Planta):-
         
         %Agregar la ventana con scroll al diálogo
         send(D, append, W),
+        
         %Abrir el diálogo
         send(D, open, point(300, 200)).        
