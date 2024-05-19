@@ -1631,34 +1631,82 @@ planta_obtiene('Rosal', 'Vitamina c').
 planta_obtiene('Rosal', 'Quercitrina').
 
 
-accion('Afrodisiaca').
-accion('Analgesica').
-accion('Anestesica').
-accion('Antidiarreica').
-accion('Antiespasmodica').
-accion('Antiflogistica').
-accion('Antipiretica').
-accion('Antiseptica').
-accion('Aperitiva').
-accion('Astringente').
-accion('Carminativa').
-accion('Colagoga').
-accion('Depurativa').
-accion('Diaforetica').
-accion('Digestiva').
-accion('Diuretica').
-accion('Emetica').
-accion('Emenagoga').
-accion('Estupefaciente').
-accion('Hemostatica').
-accion('Hepatica').
-accion('Laxante').
-accion('Pectoral').
-accion('Sedante').
-accion('Tonica').
-accion('Toxica').
-accion('Vermifuga').
-accion('Vulneraria').
+propiedade('Afrodisiaca').
+propiedade('Analgesica').
+propiedade('Anestesica').
+propiedade('Antidiarreica').
+propiedade('Antiespasmodica').
+propiedade('Antiflogistica').
+propiedade('Antipiretica').
+propiedade('Antiseptica').
+propiedade('Aperitiva').
+propiedade('Astringente').
+propiedade('Carminativa').
+propiedade('Colagoga').
+propiedade('Depurativa').
+propiedade('Diaforetica').
+propiedade('Digestiva').
+propiedade('Diuretica').
+propiedade('Emetica').
+propiedade('Emenagoga').
+propiedade('Estupefaciente').
+propiedade('Hemostatica').
+propiedade('Hepatica').
+propiedade('Laxante').
+propiedade('Pectoral').
+propiedade('Sedante').
+propiedade('Tonica').
+propiedade('Toxica').
+propiedade('Vermifuga').
+propiedade('Vulneraria').
+
+medicamento_propiedad('Tonico cardiaco', 'Estupefaciente').
+medicamento_propiedad('Digitalina', 'Antiflogistica').
+medicamento_propiedad('Morfina', 'Anestesica').
+medicamento_propiedad('Codeina', 'Analgesica').
+medicamento_propiedad('Emetina', 'Emetica').
+medicamento_propiedad('Estrienica', 'Anestesica').
+medicamento_propiedad('Veratrina', 'Anestesica').
+medicamento_propiedad('Colquicina', 'Antiflogistica').
+medicamento_propiedad('Atropina', 'Anestesica').
+medicamento_propiedad('Quina', 'Antipiretica').
+medicamento_propiedad('Teobromina', 'Diuretica').
+medicamento_propiedad('Esparteina', 'Diuretica').
+medicamento_propiedad('Cocaina', 'Estupefaciente').
+medicamento_propiedad('Mescalina', 'Anestesica').
+medicamento_propiedad('Efedrina', 'Antiflogistica').
+medicamento_propiedad('Lutenurina', 'Depurativa').
+medicamento_propiedad('Diosponina', 'Antiflogistica').
+medicamento_propiedad('Tauremisina', 'Estupefaciente').
+medicamento_propiedad('Olitorisida', 'Aperitiva').
+medicamento_propiedad('Acido lisergico', 'Estupefaciente').
+medicamento_propiedad('Eucaliptol', 'Antiseptica').
+medicamento_propiedad('Vitamina c', 'Antiflogistica').
+medicamento_propiedad('Quercitrina', 'Antiflogistica').
+
+plantas_que_producen_medicamentos(Plantas) :-
+    findall(Planta, planta_obtiene(Planta, _),
+        Plantas).
+
+medicamento_efecto(Medicamento, Efecto):-
+    medicamento_propiedad(Medicamento, Propiedad), 
+    propiedad_efecto(Propiedad, Efecto).
+
+efectos_planta(Planta, Efectos):-
+    findall(Efecto, (planta_obtiene(Planta, Medicamento),
+                    medicamento_propiedad(Medicamento, Propiedad),
+                     propiedad_efecto(Propiedad, Efecto)),
+            Efectos).
+
+efectos_de_medicamento(Medicamento, Efectos) :-
+    findall(Efecto, (medicamento_propiedad(Medicamento, Propiedad),
+                     propiedad_efecto(Propiedad, Efecto)),
+            Efectos).
+
+plantas_propiedad(Propiedad, Plantas) :-
+    findall(Planta, (medicamento_propiedad(Medicamento, Propiedad),
+                    planta_obtiene(Planta, Medicamento)),
+            Plantas).
 
 efecto('Exita el apetito sexual').
 efecto('Quita o modera el dolor').
@@ -1689,31 +1737,31 @@ efecto('Es venenosa').
 efecto('Expulsa gusanos intestinales').
 efecto('Cura llagas y heridas').
 
-accion_efecto('Afrodisiaca', 'Exita el apetito sexual').
-accion_efecto('Analgesica', 'Quita o modera el dolor').
-accion_efecto('Anestesica', 'Insensibiliza el cuerpo').
-accion_efecto('Antidiarreica', 'Controla diarreas').
-accion_efecto('Antiespasmodica', 'Controla espasmos nerviosos').
-accion_efecto('Antiflogistica', 'Ayuda con inflamaciones').
-accion_efecto('Antipiretica', 'Quita la fiebre').
-accion_efecto('Antiseptica', 'Mata los tejidos').
-accion_efecto('Aperitiva', 'Deseo de comer').
-accion_efecto('Astringente', 'Contrae los tejidos').
-accion_efecto('Carminativa', 'Evita formacion de gases').
-accion_efecto('Colagoga', 'Ayuda a expulsar la bilis').
-accion_efecto('Depurativa', 'Limpia y purifica la sangre').
-accion_efecto('Diaforetica', 'Provoca sudoracion').
-accion_efecto('Digestiva', 'Favorece a la digestion').
-accion_efecto('Diuretica', 'Provoca la orina').
-accion_efecto('Emetica', 'Provoca nauseas y vomitos').
-accion_efecto('Emenagoga', 'Activa la menstruacion').
-accion_efecto('Estupefaciente', 'Ayuda a tranquilizar').
-accion_efecto('Hemostatica', 'Detiene las hemorragias').
-accion_efecto('Hepatica', 'Ayuda al higado').
-accion_efecto('Laxante', 'Purga sin provocar diarrea').
-accion_efecto('Pectoral', 'Ayuda al pecho').
-accion_efecto('Sedante', 'Calma dolores intestinales').
-accion_efecto('Tonica', 'Fortalece el organismo').
-accion_efecto('Toxica', 'Es venenosa').
-accion_efecto('Vermifuga', 'Expulsa gusanos intestinales').
-accion_efecto('Vulneraria', 'Cura llagas y heridas').
+propiedad_efecto('Afrodisiaca', 'Exita el apetito sexual').
+propiedad_efecto('Analgesica', 'Quita o modera el dolor').
+propiedad_efecto('Anestesica', 'Insensibiliza el cuerpo').
+propiedad_efecto('Antidiarreica', 'Controla diarreas').
+propiedad_efecto('Antiespasmodica', 'Controla espasmos nerviosos').
+propiedad_efecto('Antiflogistica', 'Ayuda con inflamaciones').
+propiedad_efecto('Antipiretica', 'Quita la fiebre').
+propiedad_efecto('Antiseptica', 'Mata los tejidos').
+propiedad_efecto('Aperitiva', 'Deseo de comer').
+propiedad_efecto('Astringente', 'Contrae los tejidos').
+propiedad_efecto('Carminativa', 'Evita formacion de gases').
+propiedad_efecto('Colagoga', 'Ayuda a expulsar la bilis').
+propiedad_efecto('Depurativa', 'Limpia y purifica la sangre').
+propiedad_efecto('Diaforetica', 'Provoca sudoracion').
+propiedad_efecto('Digestiva', 'Favorece a la digestion').
+propiedad_efecto('Diuretica', 'Provoca la orina').
+propiedad_efecto('Emetica', 'Provoca nauseas y vomitos').
+propiedad_efecto('Emenagoga', 'Activa la menstruacion').
+propiedad_efecto('Estupefaciente', 'Ayuda a tranquilizar').
+propiedad_efecto('Hemostatica', 'Detiene las hemorragias').
+propiedad_efecto('Hepatica', 'Ayuda al higado').
+propiedad_efecto('Laxante', 'Purga sin provocar diarrea').
+propiedad_efecto('Pectoral', 'Ayuda al pecho').
+propiedad_efecto('Sedante', 'Calma dolores intestinales').
+propiedad_efecto('Tonica', 'Fortalece el organismo').
+propiedad_efecto('Toxica', 'Es venenosa').
+propiedad_efecto('Vermifuga', 'Expulsa gusanos intestinales').
+propiedad_efecto('Vulneraria', 'Cura llagas y heridas').

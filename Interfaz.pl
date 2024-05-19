@@ -45,9 +45,6 @@ mostrarImagen(V,D,M):- new(I, image(V)),
                   ask_name('Informacion de un medicamento','Nombre del medicamento:', Medicamento),
                   pp_info_medicamento(Medicamento).
                   
-        ask_name_obtiene:-
-                  ask_name('Ingresa el nombre de la planta','Nombre de la planta:', Planta),
-                  pp_produce_medicamento(Planta).
 
         ask_name_enfermedades_curadas_por:-
                   ask_name('Enfermedades cuaradas por (Planta)','Planta:', Planta),
@@ -56,17 +53,12 @@ mostrarImagen(V,D,M):- new(I, image(V)),
         ask_name_Termino_a_buscar:-
                   ask_name('Buscador de terminos: ','Termino a buscar:', Termino),
                   pp_significado_De_Terminos(Termino).
+        
+        ask_propiedad_plantas:-
+                  ask_name('Medicamentos producidos por plantas: ','Nombre de la planta a buscar:', Propiedad),
+                  pp_listar_plantas_propiedad(Propiedad).
 
-        ask_name_Buscar_Planta:-
-                  ask_name('Buscador de plantas: ','Nombre de la planta a buscar:', Nombre),
-                  pp_Buscador_plantas(Nombre).
-
-        ask_medicamentos:-
-                  ask_name('Medicamentos producidos por plantas: ','Nombre de la planta a buscar:', Nombre),
-                  pp_Buscador_plantas(Nombre).
-
-
-
+                  
         
 start :-
         %IniciaElProgramaComoTal
@@ -84,7 +76,14 @@ start :-
                       ]),
                 %Mostrar_medicamento_que_produce_la_planta
                 send_list(Iniciar1,append,
-                      [menu_item('Medicamento producido por planta',message(@prolog,ask_name_obtiene))
+                      [menu_item('Plantas segun sus propiedades',message(@prolog,ask_propiedad_plantas))
+                      ]),
+                send_list(Iniciar1, append,
+                      [menu_item('Listar elementos de las plantas', message(@prolog, pp_listar_elementos))
+                      ]),
+                %mostrar_lista_de_propiedades_y_efectos_de_las_plantas
+                send_list(Iniciar1, append,
+                      [menu_item('Listar elementos propiedades y sus efectos', message(@prolog, pp_listar_propiedades_efectos))
                       ]),
                 %Mostar_enfermedades_que_cura_x_plnata
                 send_list(Iniciar1,append,
@@ -94,17 +93,13 @@ start :-
                 send_list(Iniciar1,append,
                       [menu_item('Significado de terminos',message(@prolog,ask_name_Termino_a_buscar))
                       ]),
-                %Buscar_planta_por_su_nombre_y_obtener_imagen
-                send_list(Iniciar1,append,
-                      [menu_item('Buscar planta',message(@prolog,ask_name_Buscar_Planta))
+                %mostrar_lista_de_plantas_medicinales        
+                send_list(Iniciar1, append,
+                      [menu_item('Listar de plantas que producen medicamentos', message(@prolog, pp_produce_medicamento))
                       ]),
                 %mostrar_lista_de_plantas_medicinales        
                 send_list(Iniciar1, append,
                       [menu_item('Listar plantas medicinales', message(@prolog, pp_listar_plantas))
-                      ]),
-                %mostrar_lista_de_plantas_que pertenecen al botiquin        
-                send_list(Iniciar1, append,
-                      [menu_item('Botiquin', message(@prolog, pp_botiquin))
                       ]),
                 send_list(Iniciar1,append,
                       [menu_item('Lista de medicamentos',message(@prolog,pp_lista_medicamentos))
@@ -114,6 +109,10 @@ start :-
                       ]),
                 send_list(Iniciar1,append,
                       [menu_item('Lista de origenes',message(@prolog,pp_lista_origenes))
+                      ]),
+                %mostrar_lista_de_plantas_que pertenecen al botiquin        
+                send_list(Iniciar1, append,
+                      [menu_item('Botiquin', message(@prolog, pp_botiquin))
                       ]),
         mostrarImagen('C:/Prolog/img/0_Yerberito.jpg',D,Menu),
         send(D,open,point(0,0)),
@@ -125,6 +124,8 @@ start :-
         %Datos 
         nombre(Planta, Nombre),
         planta_origen(Planta, Origen),
+        efectos_planta(Planta, Efectos),
+        findall(Medicamento, planta_obtiene(Planta, Medicamento), Medicamentos),
 
         atom_concat('Informacion sobre: ', Planta, Titulo),
         new(D, dialog(Titulo)),
@@ -147,15 +148,28 @@ start :-
         send(D, display, text('Origen: ', center, bold), point(200,85)),
         send(D, display, text(Origen, center, normal), point(210,100)),
         
+        %ConvertirListaDeEnfermedadesAStringConInterlineado
+        atomic_list_concat(Enfermedades, '\n', EnfermedadesStr),
+        atomic_list_concat(Efectos, '\n', EfectosStr),
+        atomic_list_concat(Medicamentos, '\n', MedicamentosStr),
+
         %MostrarEtiquetaDeMalestaresParaTratar
         send(D, display, text('Enfermedades que cura:', left, bold), point(10,170)),
         nl,
         
-        %ConvertirListaDeEnfermedadesAStringConInterlineado
-        atomic_list_concat(Enfermedades, '\n', EnfermedadesStr),
-        
         %MostrarLosResultadosDeLaListaEnLaVentana
         send(D, display, text(EnfermedadesStr, left, normal), point(10,185)),
+
+        %MostrarEtiquetaDeMalestaresParaTratar
+        send(D, display, text('Efectos:', left, bold), point(200,170)),
+        nl,
+        
+        %MostrarLosResultadosDeLaListaEnLaVentana
+        send(D, display, text(EfectosStr, left, normal), point(200,185)),
+
+        send(D, display, text('Medicamentos que produce:', left, bold), point(10,270)),
+        nl,
+        send(D, display, text(MedicamentosStr, left, normal), point(10,285)),
         
         %MostrarLaImagenDeLaPlanta
         unirPlantaImagen(Planta, Foto),
@@ -164,72 +178,115 @@ start :-
 
 
 %##################### TARJETA DE INFORMACIÓN DE UN MEDICAMENTO #########################       
-    pp_info_medicamento(Planta):-
+    pp_info_medicamento(Medicamento):-
         %Datos 
-        nombre(Planta, Nombre),
-        planta_origen(Planta, Origen),
+        efectos_de_medicamento(Medicamento, Efectos),
+        atomic_list_concat(Efectos, '\n', EfectosStr),
 
-        atom_concat('Informacion sobre: ', Planta, Titulo),
+        atom_concat('Informacion sobre: ', Medicamento, Titulo),
         new(D, dialog(Titulo)),
         send(D, size, size(400,500)),
         send(D, colour, colour(black)),
         
-        %EstoSeUsaParaMostrarLaImagenDespues
-        send(D, append, new(Menu, menu_bar)),
-        
         %BuscarTodasLasVecesQueLaPlantaEstaLigadaConUnMalestar
-        findall(Malestar, usado_para_tratar(Planta, Malestar), Enfermedades),
         send(D, open, point(300, 200)),
 
-        send(D, display, text('Nombre comun: ', center, bold), point(200,15)),
-        send(D, display, text(Planta, center, normal), point(210,30)),
+        send(D, display, text('Nombre: ', center, bold), point(10,15)),
+        send(D, display, text(Medicamento, center, normal), point(20,30)),
 
-        send(D, display, text('Nombre cientifico: ', center, bold), point(200,50)),
-        send(D, display, text(Nombre, center, normal), point(210,65)),
-        
-        send(D, display, text('Origen: ', center, bold), point(200,85)),
-        send(D, display, text(Origen, center, normal), point(210,100)),
-        
-        %MostrarEtiquetaDeMalestaresParaTratar
-        send(D, display, text('Enfermedades que cura:', left, bold), point(10,170)),
-        nl,
-        
-        %ConvertirListaDeEnfermedadesAStringConInterlineado
-        atomic_list_concat(Enfermedades, '\n', EnfermedadesStr),
-        
-        %MostrarLosResultadosDeLaListaEnLaVentana
-        send(D, display, text(EnfermedadesStr, left, normal), point(10,185)),
-        
-        %MostrarLaImagenDeLaPlanta
-        unirPlantaImagen(Planta, Foto),
-        mostrarImagen(Foto, D, Menu),
-        nl.
+        send(D, display, text('Efectos: ', center, bold), point(10,50)),
+        send(D, display, text(EfectosStr, center, normal), point(20,65)).
 
 
+%##################### LISTA DE PLANTAS CON SUS ELEMENTOS #########################       
+    pp_listar_elementos:-
+        new(D, dialog('Elementos en las plantas:')),
+        send(D, size, size(290, 400)),
+        send(D, colour, colour(black)),
+        findall(Medicamento, medicamento(Medicamento), Medicamento),
+        %Crear una ventana con scroll
+        send(D, display, text('Elementos que se encuentran en las plantas:', center, normal), point(10, 10)),
+        new(W, window('Elementos que se encuentran en las plantas:', size(250, 370))),
+        send(W, scrollbars, vertical),  % Agregar barra de scroll vertical
+        %Convertir la lista de plantas a string con interlineado
+        atomic_list_concat(Medicamento, '\n', MedicamentoStr),
+        %Mostrar los resultados de la lista en la ventana con scroll
+        send(W, display, text(MedicamentoStr, left, normal), point(30, 10)),
+        %Agregar la ventana con scroll al diálogo
+        send(D, append, W),
+        %Abrir el diálogo
+        send(D, open, point(300, 200)).
 
-%MedicamentoObtenidoDeLaPlanta       
-pp_produce_medicamento(Planta):-
-    new(D, dialog(Planta)),
-    %PrimeroEsLoAnchoDespuesElLargo
-    send(D, size, size(500,200)),
-    send(D, colour, colour(black)),
-    send(D, append, new(Menu, menu_bar)),
-    send(D, display, text('Plantas que producen medicamentos', center, normal), point(200, 5)),
-    planta_obtiene(Planta, Obtiene),
-    send(D, open, point(300, 200)),
-    %EtiquetasDePlantaYNombre
-    send(D, display, text('Planta: ', center, normal), point(200,35)),
-        send(D, display, text(Planta, center, normal), point(270,35)),
-    %EtiquetaDePlantaYLoQueSeObtiene
-     send(D, display, text('*Se obtiene este medicamento*', center, normal), point(200,55)),
-     nl,
-     send(D, display, text(Obtiene, center, normal), point(250,70)),
-    %MostrarLaImagenDeLaPlanta
-    unirPlantaImagen(Planta, Foto),
-    mostrarImagen(Foto, D, Menu),
-    nl.
+%##################### LISTA DE PLANTAS POR PROPIEDAD #########################       
+    pp_listar_plantas_propiedad(Propiedad):-
+        %Datos 
+        plantas_propiedad(Propiedad, Plantas),
+        atomic_list_concat(Plantas, '\n', PlantasStr),
 
-%EnfermedadesCuradasPorLasPlantasBeneficios
+        atom_concat('Plantas que son: ', Propiedad, Titulo),
+        new(D, dialog(Titulo)),
+        send(D, size, size(400,500)),
+        send(D, colour, colour(black)),
+        
+        %BuscarTodasLasVecesQueLaPlantaEstaLigadaConUnMalestar
+        send(D, open, point(300, 200)),
+
+        send(D, display, text('Plantas: ', left, bold), point(10,15)),
+        send(D, display, text(PlantasStr, left, normal), point(20,30)).
+
+
+%##################### LISTA DE PROPIEDADES Y EFECTOS #########################       
+    pp_listar_propiedades_efectos :-
+        new(D, dialog('Propiedades de la planta y sus efectos')),
+        send(D, size, size(400, 400)),
+        send(D, colour, colour(black)),
+        % Buscar todas las propiedades y sus efectos
+        findall([Propiedad, Efecto], propiedad_efecto(Propiedad, Efecto), Resultados),
+        % Crear una ventana con scroll
+        send(D, append, new(text('Propiedades de la plantas y su efectos:', center, normal))),
+        new(W, window('Propiedades de la plantas y sus efectos', size(380, 370))),
+        send(W, scrollbars, vertical),  % Agregar barra de scroll vertical
+        % Mostrar los resultados en la ventana con scroll
+        mostrar_resultados(Resultados, W, 10),
+        % Agregar la ventana con scroll al diálogo
+        send(D, append, W),
+        % Abrir el diálogo
+        send(D, open, point(300, 200)).
+        % Mostrar los resultados en la ventana aplicando recursividad.
+        mostrar_resultados([], _, _).
+        mostrar_resultados([[Propiedad, Efecto] | Resto], W, Y) :-
+            send(W, display, text(Propiedad, left, normal), point(10, Y)),
+            send(W, display, text(Efecto, left, normal), point(150, Y)),
+            NewY is Y + 20,  % Incrementar la posición Y para la siguiente línea
+            mostrar_resultados(Resto, W, NewY).
+
+
+%##################### LISTA DE PLANTAS QUE PRODUCEN MEDICAMENTOS #########################       
+    pp_produce_medicamento:-
+        new(D, dialog('Lista de plantas que producen medicamentos')),
+        send(D, size, size(400, 430)),
+        send(D, colour, colour(black)),
+        
+        plantas_que_producen_medicamentos(Plantas),
+
+        %Crear una ventana con scroll
+        send(D, display, text('Plantas medicinales: ', left, normal), point(10, 10)),
+        
+        %Agregar la ventana con scroll al diálogo
+        new(W, window('Plantas', size(380, 400))),
+        send(W, scrollbars, vertical),  % Agregar barra de scroll vertical
+        
+        %Convertir la lista de plantas a string con interlineado
+        atomic_list_concat(Plantas, '\n', PlantasStr),
+        
+        %Mostrar los resultados de la lista en la ventana con scroll
+        send(W, display, text(PlantasStr, left, normal), point(10, 25)),
+        send(D, append, W),
+        
+        %Abrir el diálogo
+        send(D, open, point(300, 200)).
+
+%##################### ENFERMEDADES CURADAS CON LAS PLANTAS #########################       
 pp_enfermedades_curadas_por(Planta):-
     %AsignacionDelNombreParaVentanaEmergente
      atom_concat('Enfermedades curadas por: ', Planta, Titulo),
@@ -262,87 +319,61 @@ pp_enfermedades_curadas_por(Planta):-
     mostrarImagen(Foto, D, Menu),
     nl.
 
-%SignificadosDeLosTerminos
-pp_significado_De_Terminos(Termino):-
-    %DefineLaInstanciaDelNuevoFormulario
-    new(D, dialog(Termino)),
-    send(D, size, size(230,100)),
-    send(D, colour, colour(black)),
-    accion_efecto(Termino, Significado),
-    send(D, open, point(300, 200)),
-    %EtiquetasParaPresentacionDeDatos
-    send(D, display, text('Termino: ', center, bold), point(20,15)),
-    send(D, display, text(Termino, center, normal), point(35,30)),
-    send(D, display, text('Significado: ', center, bold), point(20,45)), nl,
-    send(D, display, text(Significado, center, normal), point(35,60)),
-    nl.
+%##################### LISTA DE TERMINOS Y SIGNIFICADOS #########################       
+    pp_significado_De_Terminos(Termino):-
+        %DefineLaInstanciaDelNuevoFormulario
+        new(D, dialog(Termino)),
+        send(D, size, size(230,100)),
+        send(D, colour, colour(black)),
+        propiedad_efecto(Termino, Significado),
+        send(D, open, point(300, 200)),
+        %EtiquetasParaPresentacionDeDatos
+        send(D, display, text('Termino: ', center, bold), point(20,15)),
+        send(D, display, text(Termino, center, normal), point(35,30)),
+        send(D, display, text('Significado: ', center, bold), point(20,45)), nl,
+        send(D, display, text(Significado, center, normal), point(35,60)),
+        nl.
 
-%ListarPlantasMedicinales
-pp_listar_plantas :-
-    % AsignacionDelNombreParaVentanaEmergente
-    new(D, dialog('Lista de plantas medicinales')),
-    send(D, size, size(400, 430)),
-    send(D, colour, colour(black)),
-    %Buscar todas las veces que la planta está ligada con un malestar
-    findall(Planta, planta(Planta), Plantas),
-    %Crear una ventana con scroll
-    send(D, display, text('Plantas medicinales: ', center, normal), point(10, 10)),
-    %Agregar la ventana con scroll al diálogo
-    new(W, window('Plantas', size(380, 400))),
-    send(W, scrollbars, vertical),  % Agregar barra de scroll vertical
-    %Convertir la lista de plantas a string con interlineado
-    atomic_list_concat(Plantas, '\n', PlantasStr),
-    %Mostrar los resultados de la lista en la ventana con scroll
-    send(W, display, text(PlantasStr, left, normal), point(10, 10)),
-    send(D, append, W),
-    %Abrir el diálogo
-    send(D, open, point(300, 200)).
+%##################### LISTA DE PLANTAS MEDICINALES #########################       
+    %ListarPlantasMedicinales
+    pp_listar_plantas :-
+        % AsignacionDelNombreParaVentanaEmergente
+        new(D, dialog('Lista de plantas medicinales')),
+        send(D, size, size(400, 430)),
+        send(D, colour, colour(black)),
+        %Buscar todas las veces que la planta está ligada con un malestar
+        findall(Planta, planta(Planta), Plantas),
+        %Crear una ventana con scroll
+        send(D, display, text('Plantas medicinales: ', center, normal), point(10, 10)),
+        %Agregar la ventana con scroll al diálogo
+        new(W, window('Plantas', size(380, 400))),
+        send(W, scrollbars, vertical),  % Agregar barra de scroll vertical
+        %Convertir la lista de plantas a string con interlineado
+        atomic_list_concat(Plantas, '\n', PlantasStr),
+        %Mostrar los resultados de la lista en la ventana con scroll
+        send(W, display, text(PlantasStr, left, normal), point(10, 10)),
+        send(D, append, W),
+        %Abrir el diálogo
+        send(D, open, point(300, 200)).
 
-
-% Buscar una planta
-pp_Buscador_plantas(Planta):-
-     atom_concat('Info de una planta', Planta, Titulo),
-    new(D, dialog(Titulo)),
-    send(D, size, size(400,500)),
-    send(D, colour, colour(black)),
-    %EstoSeUsaParaMostrarLaImagenDespues
-    send(D, append, new(Menu, menu_bar)),
-    %BuscarTodasLasVecesQueLaPlantaEstaLigadaConUnMalestar
-    findall(Malestar, usado_para_tratar(Planta, Malestar), Enfermedades),
-    send(D, open, point(300, 200)),
-    %MostrarPlantaSeguidoDelNombre
-    send(D, display, text('Planta: ', center, normal), point(200,35)),
-    send(D, display, text(Planta, center, normal), point(270,35)),
-    %MostrarEtiquetaDeMalestaresParaTratar
-    send(D, display, text('---Ayuda a tratar/beneficiar---', center, normal), point(200,60)),
-    nl,
-    %ConvertirListaDeEnfermedadesAStringConInterlineado
-    atomic_list_concat(Enfermedades, '\n', EnfermedadesStr),
-    %MostrarLosResultadosDeLaListaEnLaVentana
-    send(D, display, text(EnfermedadesStr, center, normal), point(200,80)),
-    %MostrarLaImagenDeLaPlanta
-    unirPlantaImagen(Planta, Foto),
-    mostrarImagen(Foto, D, Menu),
-    nl.
-
-%ListarPlantasMedicinales
-pp_botiquin :-
-    new(D, dialog('Botiquin de plantas')),
-    send(D, size, size(230, 400)),
-    send(D, colour, colour(black)),
-    findall(Planta, botiquin(Planta), Plantas),
-    %Crear una ventana con scroll
-    send(D, display, text('Plantas que siempre debes tener:', center, normal), point(10, 10)),
-    new(W, window('Plantas que siempre debes tener: ', size(210, 370))),
-    send(W, scrollbars, vertical),  % Agregar barra de scroll vertical
-    %Convertir la lista de plantas a string con interlineado
-    atomic_list_concat(Plantas, '\n', PlantasStr),
-    %Mostrar los resultados de la lista en la ventana con scroll
-    send(W, display, text(PlantasStr, left, normal), point(30, 10)),
-    %Agregar la ventana con scroll al diálogo
-    send(D, append, W),
-    %Abrir el diálogo
-    send(D, open, point(300, 200)).
+%##################### BOTIQUIN #########################       
+    pp_botiquin :-
+        new(D, dialog('Botiquin de plantas')),
+        send(D, size, size(230, 400)),
+        send(D, colour, colour(black)),
+        findall(Planta, botiquin(Planta), Plantas),
+        %Crear una ventana con scroll
+        send(D, display, text('Plantas que siempre debes tener:', center, normal), point(10, 10)),
+        new(W, window('Plantas que siempre debes tener: ', size(210, 370))),
+        send(W, scrollbars, vertical),  % Agregar barra de scroll vertical
+        %Convertir la lista de plantas a string con interlineado
+        atomic_list_concat(Plantas, '\n', PlantasStr),
+        %Mostrar los resultados de la lista en la ventana con scroll
+        send(W, display, text(PlantasStr, left, normal), point(30, 10)),
+        %Agregar la ventana con scroll al diálogo
+        send(D, append, W),
+        %Abrir el diálogo
+        send(D, open, point(300, 200)).
 
 
 
