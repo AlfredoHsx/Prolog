@@ -57,6 +57,10 @@ mostrarImagen(V,D,M):- new(I, image(V)),
                   ask_name('Buscador de plantas: ','Nombre de la planta a buscar:', Nombre),
                   pp_Buscador_plantas(Nombre).
 
+        ask_medicamentos:-
+                  ask_name('Medicamentos producidos por plantas: ','Nombre de la planta a buscar:', Nombre),
+                  pp_Buscador_plantas(Nombre).
+
 
 
         
@@ -94,6 +98,9 @@ start :-
                 %mostrar_lista_de_plantas_que pertenecen al botiquin        
                 send_list(Iniciar1, append,
                       [menu_item('Botiquin', message(@prolog, pp_botiquin))
+                      ]),
+                send_list(Iniciar1,append,
+                      [menu_item('Lista de medicamentos',message(@prolog,pp_lista_medicamentos))
                       ]),
         mostrarImagen('C:/Prolog/img/0_Yerberito.jpg',D,Menu),
         send(D,open,point(0,0)),
@@ -279,3 +286,30 @@ pp_botiquin :-
     send(D, append, W),
     %Abrir el diálogo
     send(D, open, point(300, 200)).
+
+
+
+%#################### LISTA DE MEDICAMENTOS #####################
+    pp_lista_medicamentos:-
+        new(D, dialog('Lista de medicamentos')),
+        send(D, size, size(300, 450)),
+        send(D, colour, colour(black)),
+
+        findall(Medicamento, medicamento(Medicamento), Medicamentos),
+        
+        send(D, display, text('Medicamentos: ', left, bold), point(10, 10)),
+        new(W, window('Medicamentos', size(280, 410))),
+        
+        %Crear una ventana con scroll
+        send(W, scrollbars, vertical),  % Agregar barra de scroll vertical
+        
+        %Convertir la lista de medicamentos a string con salto de línea
+        atomic_list_concat(Medicamentos, '\n', ListaMedicamentos),
+        
+        %Mostrar los resultados de la lista en la ventana con scroll
+        send(W, display, text(ListaMedicamentos, left, normal), point(30, 10)),
+        
+        %Agregar la ventana con scroll al diálogo
+        send(D, append, W),
+        %Abrir el diálogo
+        send(D, open, point(300, 200)).
