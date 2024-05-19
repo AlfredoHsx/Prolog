@@ -102,52 +102,102 @@ start :-
                 send_list(Iniciar1,append,
                       [menu_item('Lista de medicamentos',message(@prolog,pp_lista_medicamentos))
                       ]),
+                send_list(Iniciar1,append,
+                      [menu_item('Lista de enfermedades',message(@prolog,pp_lista_padecimientos))
+                      ]),
+                send_list(Iniciar1,append,
+                      [menu_item('Lista de origenes',message(@prolog,pp_lista_origenes))
+                      ]),
         mostrarImagen('C:/Prolog/img/0_Yerberito.jpg',D,Menu),
         send(D,open,point(0,0)),
          consult('C:/Prolog/Data.pl'),
            nl.
 
-%MedicamentoObtenidoDeLaPlanta       
-pp_info_planta(Planta):-
-    %Datos 
-    nombre(Planta, Nombre),
-    planta_origen(Planta, Origen),
+%##################### TARJETA DE INFORMACIÓN DE UNA PLANTA #########################       
+    pp_info_planta(Planta):-
+        %Datos 
+        nombre(Planta, Nombre),
+        planta_origen(Planta, Origen),
 
-    atom_concat('Informacion sobre: ', Planta, Titulo),
-    new(D, dialog(Titulo)),
-    send(D, size, size(400,500)),
-    send(D, colour, colour(black)),
-    
-    %EstoSeUsaParaMostrarLaImagenDespues
-    send(D, append, new(Menu, menu_bar)),
-    
-    %BuscarTodasLasVecesQueLaPlantaEstaLigadaConUnMalestar
-    findall(Malestar, usado_para_tratar(Planta, Malestar), Enfermedades),
-    send(D, open, point(300, 200)),
+        atom_concat('Informacion sobre: ', Planta, Titulo),
+        new(D, dialog(Titulo)),
+        send(D, size, size(400,500)),
+        send(D, colour, colour(black)),
+        
+        %EstoSeUsaParaMostrarLaImagenDespues
+        send(D, append, new(Menu, menu_bar)),
+        
+        %BuscarTodasLasVecesQueLaPlantaEstaLigadaConUnMalestar
+        findall(Malestar, usado_para_tratar(Planta, Malestar), Enfermedades),
+        send(D, open, point(300, 200)),
 
-    send(D, display, text('Nombre comun: ', center, bold), point(200,15)),
-    send(D, display, text(Planta, center, normal), point(210,30)),
+        send(D, display, text('Nombre comun: ', center, bold), point(200,15)),
+        send(D, display, text(Planta, center, normal), point(210,30)),
 
-    send(D, display, text('Nombre cientifico: ', center, bold), point(200,50)),
-    send(D, display, text(Nombre, center, normal), point(210,65)),
-    
-    send(D, display, text('Origen: ', center, bold), point(200,85)),
-    send(D, display, text(Origen, center, normal), point(210,100)),
-    
-    %MostrarEtiquetaDeMalestaresParaTratar
-    send(D, display, text('Enfermedades que cura:', left, bold), point(10,170)),
-    nl,
-    
-    %ConvertirListaDeEnfermedadesAStringConInterlineado
-    atomic_list_concat(Enfermedades, '\n', EnfermedadesStr),
-    
-    %MostrarLosResultadosDeLaListaEnLaVentana
-    send(D, display, text(EnfermedadesStr, left, normal), point(10,185)),
-    
-    %MostrarLaImagenDeLaPlanta
-    unirPlantaImagen(Planta, Foto),
-    mostrarImagen(Foto, D, Menu),
-    nl.
+        send(D, display, text('Nombre cientifico: ', center, bold), point(200,50)),
+        send(D, display, text(Nombre, center, normal), point(210,65)),
+        
+        send(D, display, text('Origen: ', center, bold), point(200,85)),
+        send(D, display, text(Origen, center, normal), point(210,100)),
+        
+        %MostrarEtiquetaDeMalestaresParaTratar
+        send(D, display, text('Enfermedades que cura:', left, bold), point(10,170)),
+        nl,
+        
+        %ConvertirListaDeEnfermedadesAStringConInterlineado
+        atomic_list_concat(Enfermedades, '\n', EnfermedadesStr),
+        
+        %MostrarLosResultadosDeLaListaEnLaVentana
+        send(D, display, text(EnfermedadesStr, left, normal), point(10,185)),
+        
+        %MostrarLaImagenDeLaPlanta
+        unirPlantaImagen(Planta, Foto),
+        mostrarImagen(Foto, D, Menu),
+        nl.
+
+
+%##################### TARJETA DE INFORMACIÓN DE UN MEDICAMENTO #########################       
+    pp_info_medicamento(Medicamento):-
+        %Datos 
+        nombre(Planta, Nombre),
+        planta_origen(Planta, Origen),
+
+        atom_concat('Informacion sobre: ', Planta, Titulo),
+        new(D, dialog(Titulo)),
+        send(D, size, size(400,500)),
+        send(D, colour, colour(black)),
+        
+        %EstoSeUsaParaMostrarLaImagenDespues
+        send(D, append, new(Menu, menu_bar)),
+        
+        %BuscarTodasLasVecesQueLaPlantaEstaLigadaConUnMalestar
+        findall(Malestar, usado_para_tratar(Planta, Malestar), Enfermedades),
+        send(D, open, point(300, 200)),
+
+        send(D, display, text('Nombre comun: ', center, bold), point(200,15)),
+        send(D, display, text(Planta, center, normal), point(210,30)),
+
+        send(D, display, text('Nombre cientifico: ', center, bold), point(200,50)),
+        send(D, display, text(Nombre, center, normal), point(210,65)),
+        
+        send(D, display, text('Origen: ', center, bold), point(200,85)),
+        send(D, display, text(Origen, center, normal), point(210,100)),
+        
+        %MostrarEtiquetaDeMalestaresParaTratar
+        send(D, display, text('Enfermedades que cura:', left, bold), point(10,170)),
+        nl,
+        
+        %ConvertirListaDeEnfermedadesAStringConInterlineado
+        atomic_list_concat(Enfermedades, '\n', EnfermedadesStr),
+        
+        %MostrarLosResultadosDeLaListaEnLaVentana
+        send(D, display, text(EnfermedadesStr, left, normal), point(10,185)),
+        
+        %MostrarLaImagenDeLaPlanta
+        unirPlantaImagen(Planta, Foto),
+        mostrarImagen(Foto, D, Menu),
+        nl.
+
 
 
 %MedicamentoObtenidoDeLaPlanta       
@@ -313,3 +363,54 @@ pp_botiquin :-
         send(D, append, W),
         %Abrir el diálogo
         send(D, open, point(300, 200)).
+
+%#################### LISTA DE ENFERMEDADES #####################
+    pp_lista_padecimientos:-
+        new(D, dialog('Lista de enfermedades')),
+        send(D, size, size(300, 450)),
+        send(D, colour, colour(black)),
+
+        findall(Enfermedad, padecimiento(Enfermedad), Enfermedades),
+        
+        send(D, display, text('Enfermedades: ', left, bold), point(10, 10)),
+        new(W, window('Enfermedades', size(280, 410))),
+        
+        %Crear una ventana con scroll
+        send(W, scrollbars, vertical),  % Agregar barra de scroll vertical
+        
+        %Convertir la lista de enfermedades a string con salto de línea
+        atomic_list_concat(Enfermedades, '\n', ListaEnfermedades),
+        
+        %Mostrar los resultados de la lista en la ventana con scroll
+        send(W, display, text(ListaEnfermedades, left, normal), point(30, 10)),
+        
+        %Agregar la ventana con scroll al diálogo
+        send(D, append, W),
+        %Abrir el diálogo
+        send(D, open, point(300, 200)).        
+
+
+%#################### LISTA DE ORIGENES #####################
+    pp_lista_origenes:-
+        new(D, dialog('Lista de origenes')),
+        send(D, size, size(300, 450)),
+        send(D, colour, colour(black)),
+
+        findall(Origen, origen(Origen), Origenes),
+        
+        send(D, display, text('Origenes: ', left, bold), point(10, 10)),
+        new(W, window('Origenes', size(280, 410))),
+        
+        %Crear una ventana con scroll
+        send(W, scrollbars, vertical),  % Agregar barra de scroll vertical
+        
+        %Convertir la lista de enfermedades a string con salto de línea
+        atomic_list_concat(Origenes, '\n', ListaOrigenes),
+        
+        %Mostrar los resultados de la lista en la ventana con scroll
+        send(W, display, text(ListaOrigenes, left, normal), point(30, 10)),
+        
+        %Agregar la ventana con scroll al diálogo
+        send(D, append, W),
+        %Abrir el diálogo
+        send(D, open, point(300, 200)).        
