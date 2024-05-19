@@ -41,6 +41,10 @@ mostrarImagen(V,D,M):- new(I, image(V)),
                   ask_name('Informacion de una planta','Nombre de la planta:', Planta),
                   pp_info_planta(Planta).
                   
+        ask_name_info_medicamento:-
+                  ask_name('Informacion de un medicamento','Nombre del medicamento:', Medicamento),
+                  pp_info_medicamento(Medicamento).
+                  
         ask_name_obtiene:-
                   ask_name('Ingresa el nombre de la planta','Nombre de la planta:', Planta),
                   pp_produce_medicamento(Planta).
@@ -74,6 +78,9 @@ start :-
                 %Información de una planta en específico
                 send_list(Iniciar1,append,
                       [menu_item('Consultar una planta',message(@prolog,ask_name_info_planta))
+                      ]),
+                send_list(Iniciar1,append,
+                      [menu_item('Consultar un medicamento',message(@prolog,ask_name_info_medicamento))
                       ]),
                 %Mostrar_medicamento_que_produce_la_planta
                 send_list(Iniciar1,append,
@@ -157,7 +164,7 @@ start :-
 
 
 %##################### TARJETA DE INFORMACIÓN DE UN MEDICAMENTO #########################       
-    pp_info_medicamento(Medicamento):-
+    pp_info_medicamento(Planta):-
         %Datos 
         nombre(Planta, Nombre),
         planta_origen(Planta, Origen),
