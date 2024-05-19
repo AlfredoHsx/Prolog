@@ -36,6 +36,11 @@ mostrarImagen(V,D,M):- new(I, image(V)),
                 Name = RawName.
         
         %MostrarInfromacionDeLosPlantas
+
+        ask_name_info_planta:-
+                  ask_name('Informacion de una planta','Nombre de la planta:', Planta),
+                  pp_info_planta(Planta).
+                  
         ask_name_obtiene:-
                   ask_name('Ingresa el nombre de la planta','Nombre de la planta:', Planta),
                   pp_produce_medicamento(Planta).
@@ -62,6 +67,10 @@ start :-
         send(D,colour,colour(red)),
         send(D, append, new(Menu, menu_bar)),        
         send(Menu,append,new(Iniciar1,popup('Menu: '))),
+                %Información de una planta en específico
+                send_list(Iniciar1,append,
+                      [menu_item('Consultar una planta',message(@prolog,ask_name_info_planta))
+                      ]),
                 %Mostrar_medicamento_que_produce_la_planta
                 send_list(Iniciar1,append,
                       [menu_item('Medicamento producido por planta',message(@prolog,ask_name_obtiene))
@@ -91,6 +100,48 @@ start :-
          consult('C:/Prolog/Data.pl'),
            nl.
 
+%MedicamentoObtenidoDeLaPlanta       
+pp_info_planta(Planta):-
+    %Datos 
+    nombre(Planta, Nombre),
+    planta_origen(Planta, Origen),
+
+    atom_concat('Informacion sobre: ', Planta, Titulo),
+    new(D, dialog(Titulo)),
+    send(D, size, size(400,500)),
+    send(D, colour, colour(black)),
+    
+    %EstoSeUsaParaMostrarLaImagenDespues
+    send(D, append, new(Menu, menu_bar)),
+    
+    %BuscarTodasLasVecesQueLaPlantaEstaLigadaConUnMalestar
+    findall(Malestar, usado_para_tratar(Planta, Malestar), Enfermedades),
+    send(D, open, point(300, 200)),
+
+    send(D, display, text('Nombre comun: ', center, bold), point(200,15)),
+    send(D, display, text(Planta, center, normal), point(210,30)),
+
+    send(D, display, text('Nombre cientifico: ', center, bold), point(200,50)),
+    send(D, display, text(Nombre, center, normal), point(210,65)),
+    
+    send(D, display, text('Origen: ', center, bold), point(200,85)),
+    send(D, display, text(Origen, center, normal), point(210,100)),
+    
+    %MostrarEtiquetaDeMalestaresParaTratar
+    send(D, display, text('Enfermedades que cura:', left, bold), point(10,170)),
+    nl,
+    
+    %ConvertirListaDeEnfermedadesAStringConInterlineado
+    atomic_list_concat(Enfermedades, '\n', EnfermedadesStr),
+    
+    %MostrarLosResultadosDeLaListaEnLaVentana
+    send(D, display, text(EnfermedadesStr, left, normal), point(10,185)),
+    
+    %MostrarLaImagenDeLaPlanta
+    unirPlantaImagen(Planta, Foto),
+    mostrarImagen(Foto, D, Menu),
+    nl.
+
 
 %MedicamentoObtenidoDeLaPlanta       
 pp_produce_medicamento(Planta):-
@@ -117,23 +168,29 @@ pp_produce_medicamento(Planta):-
 %EnfermedadesCuradasPorLasPlantasBeneficios
 pp_enfermedades_curadas_por(Planta):-
     %AsignacionDelNombreParaVentanaEmergente
-     atom_concat('Enfermedades curadas por ', Planta, Titulo),
+     atom_concat('Enfermedades curadas por: ', Planta, Titulo),
     new(D, dialog(Titulo)),
     send(D, size, size(400,500)),
     send(D, colour, colour(black)),
+
     %EstoSeUsaParaMostrarLaImagenDespues
     send(D, append, new(Menu, menu_bar)),
+    
     %BuscarTodasLasVecesQueLaPlantaEstaLigadaConUnMalestar
     findall(Malestar, usado_para_tratar(Planta, Malestar), Enfermedades),
     send(D, open, point(300, 200)),
+
     %MostrarPlantaSeguidoDelNombre
     send(D, display, text('Planta: ', center, normal), point(200,35)),
     send(D, display, text(Planta, center, normal), point(270,35)),
+    
     %MostrarEtiquetaDeMalestaresParaTratar
     send(D, display, text('---Ayuda a tratar/beneficiar---', center, normal), point(200,60)),
     nl,
+    
     %ConvertirListaDeEnfermedadesAStringConInterlineado
     atomic_list_concat(Enfermedades, '\n', EnfermedadesStr),
+    
     %MostrarLosResultadosDeLaListaEnLaVentana
     send(D, display, text(EnfermedadesStr, center, normal), point(200,80)),
     %MostrarLaImagenDeLaPlanta
