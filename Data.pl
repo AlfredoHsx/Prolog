@@ -393,6 +393,15 @@ nombre('Zoapatle', 'Montanoa tomentosa').
 nombre('Barbasco', 'Diacorea mexicana').
 nombre('Opio', 'Montanoa tomentosa').
 
+origen('Europa').
+origen('Africa').
+origen('Asia').
+origen('Sudamerica').
+origen('Centroamerica').
+origen('Norteamerica').
+origen('America').
+origen('Oceania').
+
 planta_origen('Abrojo', 'Europa').
 planta_origen('Acacia', 'Africa').
 planta_origen('Acanto', 'Africa').
@@ -517,7 +526,7 @@ planta_origen('Melisa', 'Europa').
 planta_origen('Membrillo', 'Asia').
 planta_origen('Menta', 'Europa').
 planta_origen('Mezquite', 'Centroamerica').
-planta_origen('Miel', 'Todo el mundo').
+planta_origen('Miel', 'Africa').
 planta_origen('Milenrama', 'Europa').
 planta_origen('Monacillo', 'Norteamerica').
 planta_origen('Mostaza', 'Asia').
@@ -568,7 +577,7 @@ planta_origen('Tecomasuchil', 'Centroamerica').
 planta_origen('Tejocote', 'Centroamerica').
 planta_origen('Tila', 'Norteamerica').
 planta_origen('Tlachichinole', 'Centroamerica').
-planta_origen('Toloache', 'América del Sur').
+planta_origen('Toloache', 'Sudamerica').
 planta_origen('Tomillo', 'Europa').
 planta_origen('Toronja', 'Asia').
 planta_origen('Toronjil', 'Centroamérica').
@@ -580,7 +589,7 @@ planta_origen('Violeta', 'Europa').
 planta_origen('Yohimbe', 'Africa').
 planta_origen('Zanahoria', 'Asia').
 planta_origen('Zarzamora', 'Europa').
-planta_origen('Zarzaparrilla', 'Centroamérica').
+planta_origen('Zarzaparrilla', 'Centroamerica').
 planta_origen('Zoapatle', 'Centroamérica').
 planta_origen('Opio', 'Europa').
 planta_origen('Barbasco', 'Centroamérica').

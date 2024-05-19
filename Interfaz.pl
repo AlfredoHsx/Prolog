@@ -47,9 +47,12 @@ mostrarImagen(V,D,M):- new(I, image(V)),
         ask_name_Termino_a_buscar:-
                   ask_name('Buscador de terminos: ','Termino a buscar:', Termino),
                   pp_significado_De_Terminos(Termino).
+
         ask_name_Buscar_Planta:-
                   ask_name('Buscador de plantas: ','Nombre de la planta a buscar:', Nombre),
                   pp_Buscador_plantas(Nombre).
+
+
 
         
 start :-
@@ -78,6 +81,10 @@ start :-
                 %mostrar_lista_de_plantas_medicinales        
                 send_list(Iniciar1, append,
                       [menu_item('Listar plantas medicinales', message(@prolog, pp_listar_plantas))
+                      ]),
+                %mostrar_lista_de_plantas_que pertenecen al botiquin        
+                send_list(Iniciar1, append,
+                      [menu_item('Botiquin', message(@prolog, pp_botiquin))
                       ]),
         mostrarImagen('C:/Prolog/img/0_Yerberito.jpg',D,Menu),
         send(D,open,point(0,0)),
@@ -138,41 +145,37 @@ pp_enfermedades_curadas_por(Planta):-
 pp_significado_De_Terminos(Termino):-
     %DefineLaInstanciaDelNuevoFormulario
     new(D, dialog(Termino)),
-    send(D, size, size(200,200)),
+    send(D, size, size(230,100)),
     send(D, colour, colour(black)),
-    send(D, display, text('Significado del termino', center, normal), point(20, 5)),
-    %ObtenerElSignificadoDeLaPalabra
     accion_efecto(Termino, Significado),
     send(D, open, point(300, 200)),
     %EtiquetasParaPresentacionDeDatos
-    send(D, display, text('Termino: ', center, normal), point(20,35)),
-    send(D, display, text(Termino, center, normal), point(70,35)),
-    send(D, display, text('Significado: ', center, normal), point(20,55)),
-    nl,
-    send(D, display, text(Significado, center, normal), point(20,70)),
+    send(D, display, text('Termino: ', center, bold), point(20,15)),
+    send(D, display, text(Termino, center, normal), point(35,30)),
+    send(D, display, text('Significado: ', center, bold), point(20,45)), nl,
+    send(D, display, text(Significado, center, normal), point(35,60)),
     nl.
 
 %ListarPlantasMedicinales
 pp_listar_plantas :-
     % AsignacionDelNombreParaVentanaEmergente
     new(D, dialog('Lista de plantas medicinales')),
-    send(D, size, size(400, 500)),
+    send(D, size, size(400, 430)),
     send(D, colour, colour(black)),
     %Buscar todas las veces que la planta está ligada con un malestar
     findall(Planta, planta(Planta), Plantas),
     %Crear una ventana con scroll
+    send(D, display, text('Plantas medicinales: ', center, normal), point(10, 10)),
+    %Agregar la ventana con scroll al diálogo
     new(W, window('Plantas', size(380, 400))),
     send(W, scrollbars, vertical),  % Agregar barra de scroll vertical
     %Convertir la lista de plantas a string con interlineado
     atomic_list_concat(Plantas, '\n', PlantasStr),
     %Mostrar los resultados de la lista en la ventana con scroll
     send(W, display, text(PlantasStr, left, normal), point(10, 10)),
-    %Agregar la ventana con scroll al diálogo
     send(D, append, W),
     %Abrir el diálogo
-    send(D, open, point(300, 200)),
-    %Mostrar etiqueta de malestares para tratar
-    send(D, display, text('---Lista de plantas medicinales---', center, normal), point(200, 20)).
+    send(D, open, point(300, 200)).
 
 
 % Buscar una planta
@@ -200,3 +203,22 @@ pp_Buscador_plantas(Planta):-
     unirPlantaImagen(Planta, Foto),
     mostrarImagen(Foto, D, Menu),
     nl.
+
+%ListarPlantasMedicinales
+pp_botiquin :-
+    new(D, dialog('Botiquin de plantas')),
+    send(D, size, size(230, 400)),
+    send(D, colour, colour(black)),
+    findall(Planta, botiquin(Planta), Plantas),
+    %Crear una ventana con scroll
+    send(D, display, text('Plantas que siempre debes tener:', center, normal), point(10, 10)),
+    new(W, window('Plantas que siempre debes tener: ', size(210, 370))),
+    send(W, scrollbars, vertical),  % Agregar barra de scroll vertical
+    %Convertir la lista de plantas a string con interlineado
+    atomic_list_concat(Plantas, '\n', PlantasStr),
+    %Mostrar los resultados de la lista en la ventana con scroll
+    send(W, display, text(PlantasStr, left, normal), point(30, 10)),
+    %Agregar la ventana con scroll al diálogo
+    send(D, append, W),
+    %Abrir el diálogo
+    send(D, open, point(300, 200)).
