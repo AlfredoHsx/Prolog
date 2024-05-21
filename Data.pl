@@ -1959,3 +1959,256 @@ se_usa_como('Zarzaparrilla', 'Cocimiento').
 se_usa_como('Zoapatle', 'Cocimiento').
 se_usa_como('Opio', 'Cocimiento').
 se_usa_como('Barbasco', 'Cocimiento').
+
+formas_de_uso('Cocimiento').
+formas_de_uso('Infusion').
+formas_de_uso('Maceracion').
+formas_de_uso('Jarabe').
+formas_de_uso('Tintura').
+formas_de_uso('Jugo').
+formas_de_uso('Horchata').
+
+
+parte_planta('Cocimiento', '- Hierba\n- Raiz').
+tiempo('Cocimiento', '5 minutos').
+instrucciones('Cocimiento', 'Hervir la parte de la planta en agua.\n - Dejar reposar 5 minutos.\n - Tomar el cocimiento colado.').
+administracion('Cocimiento', 'Oral').
+ingredientes('Cocimiento', '- Agua').
+
+parte_planta('Infusion', 'Planta').
+tiempo('Infusion', '5 minutos').
+instrucciones('Infusion', '- Hervir agua en un recipiente.\n- Lavar la planta y colocarla en un recipiente.\n- Vaciar el agua todavía hirviendo en el recipiente con la planta.\n- Dejar reposar por 5 minutos.\n- Beber.').
+administracion('Infusion', 'Oral').
+ingredientes('Infusion', '- Agua').
+
+parte_planta('Maceracion', 'Planta').
+tiempo('Maceracion', 'NA').
+instrucciones('Maceracion', '- Triturara la planta y sumergirla en poca agua.\n- Dejar que se remoje.').
+administracion('Maceracion', 'Oral').
+ingredientes('Maceracion', '- Agua').
+
+parte_planta('Jarabe', 'Planta').
+tiempo('Jarabe', '2 semanas').
+instrucciones('Jarabe', '- Hervir la planta en agua 10 minutos.\n- Ponerle azucar.\n- Hervir por 10 minutos más.\n- Dejar que efrie y colar.\n- Anadir 10 por ciento de alcohol de cana.').
+administracion('Jarabe', 'Oral').
+ingredientes('Jarabe', '- Agua\n- Azucar\n- Alcohol de cana').
+
+parte_planta('Tintura', 'Planta').
+tiempo('Tintura', '2 semanas').
+instrucciones('Tintura', '- Triturara o desmenuzar la planta.\n- Colocarla en un frasco con corcho.\n- Añadir alcohol de caña y agitar.\n- Se le anade agua destilada o de lluvia (25g por cada 75 gr de alcohol).\n- Dejar reposar en un lugar oscuro una o dos semanas.\n- Filtrar con algodon o esponja.').
+administracion('Tintura', 'Oral').
+ingredientes('Tintura', '- Agua destilada\n- Alcohol de cana').
+
+parte_planta('Jugo', 'Planta').
+tiempo('Jugo', 'NA').
+instrucciones('Jugo', '- Exprimir las plantas en un trato limpio.').
+administracion('Jugo', 'Oral').
+ingredientes('Jugo', 'NA').
+
+parte_planta('Horchata', 'Semillas').
+tiempo('Horchata', 'NA').
+instrucciones('Horchata', '- Se muelen las semillas hasta formar una mazilla.\n- Se cuela en un cedazo.\n- Se endulza y se le agrega agua para tomarla.').
+administracion('Horchata', 'Oral').
+ingredientes('Horchata', '- Agua\n- Endulzante').
+
+%Planta y du efecto en el cuerpo
+efecto_de_la_planta('Abrojo', 'Analgesica').
+efecto_de_la_planta('Acacia', 'Antiinflamatoria').
+efecto_de_la_planta('Acanto', 'Emoliente').
+efecto_de_la_planta('Acedera', 'Antianémica').
+efecto_de_la_planta('Aceite de oliva', 'Antiinflamatoria').
+efecto_de_la_planta('Aceitilla', 'Antiinflamatoria').
+efecto_de_la_planta('Acelga', 'Digestiva').
+efecto_de_la_planta('Achicoria', 'Laxante').
+efecto_de_la_planta('Aconito', 'Analgesica').
+efecto_de_la_planta('Agar-agar', 'Laxante').
+efecto_de_la_planta('Aguacate', 'Digestiva').
+efecto_de_la_planta('Ajenjo', 'Digestiva').
+efecto_de_la_planta('Ajo', 'Antiespasmódicas').
+efecto_de_la_planta('Albahaca', 'Digestiva').
+efecto_de_la_planta('Alcachofa', 'Diuretica').
+efecto_de_la_planta('Alcanfor', 'Antiinflamatoria').
+efecto_de_la_planta('Alfalfa', 'Depurativa').
+efecto_de_la_planta('Alholva', 'Antidiabetica').
+efecto_de_la_planta('Alpiste', 'Hipercolesterolemia').
+efecto_de_la_planta('Anacahuite', 'Antiseptica').
+efecto_de_la_planta('Anagalida', 'Cicatrizante').
+efecto_de_la_planta('Anis estrella', 'Analgesica').
+efecto_de_la_planta('Anis', 'Digestiva').
+efecto_de_la_planta('Apio', 'Antiinflamatoria').
+efecto_de_la_planta('Arnica', 'Antiinflamatoria').
+efecto_de_la_planta('Arroz', 'Digestiva').
+efecto_de_la_planta('Artemisa', 'Antiinflamatoria').
+efecto_de_la_planta('Avena', 'Aperitiva').
+efecto_de_la_planta('Azafran', 'Digestiva').
+efecto_de_la_planta('Azahar', 'Digestion').
+efecto_de_la_planta('Beleño', 'Analgesica').
+efecto_de_la_planta('Belladona', 'Diuretica').
+efecto_de_la_planta('Benjui', 'Antiseptica').
+efecto_de_la_planta('Berro', 'Antianémica').
+efecto_de_la_planta('Betonia', 'Cicatrizante').
+efecto_de_la_planta('Boldo', 'Analgesica').
+efecto_de_la_planta('Borraja', 'Diuretica').
+efecto_de_la_planta('Brionia', 'Digestiva').
+efecto_de_la_planta('Cabellos de elote', 'Diuretica').
+efecto_de_la_planta('Calendula', 'Antiinflamatoria').
+efecto_de_la_planta('Canela', 'Antioxidante').
+efecto_de_la_planta('Capulin', 'Antidiarreica').
+efecto_de_la_planta('Cardo santo', 'Antidiarreica').
+efecto_de_la_planta('Cardo', 'Antiglucemica').
+efecto_de_la_planta('Cascara sagrada', 'Laxante').
+efecto_de_la_planta('Castaño de indias', 'Flebotonica').
+efecto_de_la_planta('Cebada', 'Digestiva').
+efecto_de_la_planta('Cebolla', 'Digestiva').
+efecto_de_la_planta('Cedron', 'Antidiarreica').
+efecto_de_la_planta('Cerezo', 'Antirreumatica').
+efecto_de_la_planta('Chaparro amargoso', 'Purgante').
+efecto_de_la_planta('Chia', 'Digestiva').
+efecto_de_la_planta('Chicalote', 'Analgesica').
+efecto_de_la_planta('Cilantro', 'Diuretica').
+efecto_de_la_planta('Cipres', 'Antivirica').
+efecto_de_la_planta('Ciruela', 'Digestiva').
+efecto_de_la_planta('Clavo', 'Antiinflamatoria').
+efecto_de_la_planta('Cola de caballo', 'Diuretica').
+efecto_de_la_planta('Colchico', 'Digestiva').
+efecto_de_la_planta('Coquito de aceite', 'Hidratante').
+efecto_de_la_planta('Crataegus', 'Sedante').
+efecto_de_la_planta('Cuachalalate', 'Depurativa').
+efecto_de_la_planta('Cuasia', 'Digestiva').
+efecto_de_la_planta('Cuercillo', 'Analgesica').
+efecto_de_la_planta('Damiana', 'Afrodisiaca').
+efecto_de_la_planta('Diente de leon', 'Diuretica').
+efecto_de_la_planta('Digital', 'Efecto Digital').
+efecto_de_la_planta('Doradilla', 'Diuretica').
+efecto_de_la_planta('Encina', 'Analgesica').
+efecto_de_la_planta('Encino rojo', 'Analgesica').
+efecto_de_la_planta('Enebro', 'Diuretica').
+efecto_de_la_planta('Epazote', 'Analgesica').
+efecto_de_la_planta('Esparrago', 'Digestiva').
+efecto_de_la_planta('Espinacas', 'Depurativa').
+efecto_de_la_planta('Espino', 'Antibiotica').
+efecto_de_la_planta('Espinosilla', 'Antilopecica').
+efecto_de_la_planta('Estafiate', 'Digestiva').
+efecto_de_la_planta('Eucalipto', 'Antiseptica').
+efecto_de_la_planta('Fenogreco', 'Antiinflamatoria').
+efecto_de_la_planta('Fresno', 'Antiinflamatoria').
+efecto_de_la_planta('Gelsemio', 'Sedante').
+efecto_de_la_planta('Genciana', 'Digestiva').
+efecto_de_la_planta('Geranio', 'Sedante').
+efecto_de_la_planta('Germen de trigo', 'Antioxidante').
+efecto_de_la_planta('Girasol', 'Antioxidante').
+efecto_de_la_planta('Gobernadora', 'Antiinflamatoria').
+efecto_de_la_planta('Gordolobo', 'Antiinflamatoria').
+efecto_de_la_planta('Grama', 'Diuretica').
+efecto_de_la_planta('Granada', 'Antioxidante').
+efecto_de_la_planta('Guayaba', 'Antidiarreica').
+efecto_de_la_planta('Hamamelis', 'Antiflogistica').
+efecto_de_la_planta('Helecho macho', 'Antiparasitaria').
+efecto_de_la_planta('Helecho', 'Antiinflamatoria').
+efecto_de_la_planta('Hiedra', 'Expectorante').
+efecto_de_la_planta('Hierba del pollo', 'Antidiarreica').
+efecto_de_la_planta('Hierbabuena', 'Digestiva').
+efecto_de_la_planta('Higuera', 'Antidiabetica').
+efecto_de_la_planta('Hinojo', 'Antidiarreica').
+efecto_de_la_planta('Hisopol', 'Antiseptica').
+efecto_de_la_planta('Ipecacuana', 'Antiparasitaria').
+efecto_de_la_planta('Jengibre', 'Digestiva').
+efecto_de_la_planta('Jugo de limon', 'Cicatrizante').
+efecto_de_la_planta('Jugo de toronja', 'Digestiva').
+efecto_de_la_planta('Jugo de vastago de platano morado', 'Digestiva').
+efecto_de_la_planta('Laurel', 'Digestiva').
+efecto_de_la_planta('Lavanda', 'Sedante').
+efecto_de_la_planta('Leche de higuera', 'Laxante').
+efecto_de_la_planta('Lechuga', 'Depurativa').
+efecto_de_la_planta('Limon', 'Cicatrizante').
+efecto_de_la_planta('Linaza', 'Digestiva').
+efecto_de_la_planta('Lino', 'Digestiva').
+efecto_de_la_planta('Llanten', 'Digestiva').
+efecto_de_la_planta('Lupulo', 'Sedante').
+efecto_de_la_planta('Malva', 'Digestiva').
+efecto_de_la_planta('Malvavisco', 'Emoliente').
+efecto_de_la_planta('Manzanilla', 'Antiinflamatoria').
+efecto_de_la_planta('Marrubio', 'Diuretica').
+efecto_de_la_planta('Mastuerzo', 'Antidiarreica').
+efecto_de_la_planta('Matarique', 'Antidiabetica').
+efecto_de_la_planta('Mate', 'Antioxidante').
+efecto_de_la_planta('Melisa', 'Antiinflamatoria').
+efecto_de_la_planta('Membrillo', 'Antiinflamatoria').
+efecto_de_la_planta('Menta', 'Digestiva').
+efecto_de_la_planta('Mezquite', 'Analgesica').
+efecto_de_la_planta('Miel', 'Antiseptica').
+efecto_de_la_planta('Milenrama', 'Emenagono').
+efecto_de_la_planta('Monacillo', 'Antiespasmódicas').
+efecto_de_la_planta('Mostaza', 'Aperitiva').
+efecto_de_la_planta('Muerdago', 'Antiinflamatoria').
+efecto_de_la_planta('Muicle', 'AAnticancerígena').
+efecto_de_la_planta('Naranja', 'Relajante').
+efecto_de_la_planta('Nogal', 'Antimicotica').
+efecto_de_la_planta('Nuez de kola', 'Estimulante').
+efecto_de_la_planta('Nuez vomica', 'Antiinflamatoria').
+efecto_de_la_planta('Ocote', 'Diuretica').
+efecto_de_la_planta('Oregano', 'Analgesica').
+efecto_de_la_planta('Ortiga', 'Depurativa').
+efecto_de_la_planta('Papaloquelite', 'Digestiva').
+efecto_de_la_planta('Papaya', 'Vasodiltadora').
+efecto_de_la_planta('Pasiflora', 'Sedante').
+efecto_de_la_planta('Perejil', 'Antiinflamatoria').
+efecto_de_la_planta('Pimiento', 'Antiinflamatoria').
+efecto_de_la_planta('Pingüica', 'Antioxidante').
+efecto_de_la_planta('Pino', 'Antioxidante').
+efecto_de_la_planta('Pirul', 'Purgante').
+efecto_de_la_planta('Prodigiosa', 'Antiinflamatoria').
+efecto_de_la_planta('Puerro', 'Digestiva').
+efecto_de_la_planta('Quina amarilla', 'Antipiretica').
+efecto_de_la_planta('Quina roja', 'Antipiretica').
+efecto_de_la_planta('Quina', 'Antipiretica').
+efecto_de_la_planta('Rabano', 'Digestiva').
+efecto_de_la_planta('Retama', 'Diuretica').
+efecto_de_la_planta('Ricino', 'Digestiva').
+efecto_de_la_planta('Roble', 'Astringente'). %Provoca estreñimiento
+efecto_de_la_planta('Romero', 'Antiseptica').
+efecto_de_la_planta('Rosal', 'Antiseptica').
+efecto_de_la_planta('Ruda', 'Antiespasmodica').
+efecto_de_la_planta('Ruibarbo', 'Laxante').
+efecto_de_la_planta('Sabina', 'Antiverrucoso').
+efecto_de_la_planta('Salvia', 'Diuretica').
+efecto_de_la_planta('Sanguinaria', 'Cicatrizante').
+efecto_de_la_planta('Sauco', 'Digestiva').
+efecto_de_la_planta('Semilla de calabaza', 'Hipercolesterolemia').
+efecto_de_la_planta('Siempreviva', 'Cicatrizante').
+efecto_de_la_planta('Simonillo', 'Digestiva').
+efecto_de_la_planta('Tabachin', 'Antirreumáticos').
+efecto_de_la_planta('Tabaco', 'Expectorante').
+efecto_de_la_planta('Tabaquillo', 'Afrodisiaca').
+efecto_de_la_planta('Tamarindo', 'Antiinflamatoria').
+efecto_de_la_planta('Te de limon', 'Digestiva').
+efecto_de_la_planta('Te negro', 'Antioxidante').
+efecto_de_la_planta('Tecomasuchil', 'Antiinflamatoria').
+efecto_de_la_planta('Tejocote', 'Coagulante').
+efecto_de_la_planta('Tila', 'Antigripal').
+efecto_de_la_planta('Tlachichinole', 'Digestiva').
+efecto_de_la_planta('Toloache', 'Alucinogena').
+efecto_de_la_planta('Tomillo', 'Antitusígeno').
+efecto_de_la_planta('Toronja', 'Digestiva').
+efecto_de_la_planta('Toronjil', 'Antiespasmodica').
+efecto_de_la_planta('Tronadora', 'Antidiabetica').
+efecto_de_la_planta('Uva', 'Antioxidante').
+efecto_de_la_planta('Valeriana', 'Relajante').
+efecto_de_la_planta('Verbena', 'Digestiva').
+efecto_de_la_planta('Violeta', 'Antigripal').
+efecto_de_la_planta('Yohimbe', 'Afrodisiaca').
+efecto_de_la_planta('Zanahoria', 'Digestiva').
+efecto_de_la_planta('Zarzamora', 'Antiinflamatoria').
+efecto_de_la_planta('Zarzaparrilla', 'Diuretica').
+efecto_de_la_planta('Zoapatle', 'Implantatonos').
+efecto_de_la_planta('Barbasco', 'Digestiva').
+efecto_de_la_planta('Opio', 'Analgesica').
+efecto_de_la_planta('Ipeca', 'Expectorante').
+efecto_de_la_planta('Eleboro blanco', 'Antiparasitaria').
+efecto_de_la_planta('Cacao', 'Estimulante').
+efecto_de_la_planta('Coca', 'Estimulante').
+efecto_de_la_planta('Peyote', 'Analgesica').
+efecto_de_la_planta('Efedra', 'Diuretico').
+efecto_de_la_planta('Barbasco', 'Antigripal').
+efecto_de_la_planta('Nenufar amarillo', 'Afrodisiaca').
+efecto_de_la_planta('Ñame', 'Depurativa').

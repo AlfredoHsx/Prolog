@@ -8,7 +8,7 @@ mostrarImagen(V,D,M):- new(I, image(V)),
         %DondeSeVeraLaImagen
         new(D1, device),
         send(D1, display, F2),
-        send(D, display, D1,point(20,20)),
+        send(D, display, D1,point(10,10)),
         send(D1,below(M)).
 
 :- pce_global(@name_prompter, make_name_prompter).
@@ -36,7 +36,6 @@ mostrarImagen(V,D,M):- new(I, image(V)),
                 Name = RawName.
         
         %MostrarInfromacionDeLosPlantas
-
         ask_name_info_planta:-
                   ask_name('Informacion de una planta','Nombre de la planta:', Planta),
                   pp_info_planta(Planta).
@@ -49,9 +48,8 @@ mostrarImagen(V,D,M):- new(I, image(V)),
                   ask_name('Informacion de una enfermedad','Nombre de la enfermedad:', Enfermedad),
                   pp_info_enfermedad(Enfermedad).
                   
-
         ask_name_enfermedades_curadas_por:-
-                  ask_name('Enfermedades cuaradas por (Planta)','Planta:', Planta),
+                  ask_name('Enfermedades cuaradas por una planta','Ingrese la planta:', Planta),
                   pp_enfermedades_curadas_por(Planta).
         
         ask_name_Termino_a_buscar:-
@@ -59,9 +57,12 @@ mostrarImagen(V,D,M):- new(I, image(V)),
                   pp_significado_De_Terminos(Termino).
         
         ask_propiedad_plantas:-
-                  ask_name('Medicamentos producidos por plantas: ','Nombre de la planta a buscar:', Propiedad),
+                  ask_name('Plantas segun el efecto causado: ','Ingrese el efecto:', Propiedad),
                   pp_listar_plantas_propiedad(Propiedad).
 
+        pp_ask_forma_uso:-
+                  ask_name('Modos de preparacion: ','Inserte el modo de preparacion:', FormaUso),
+                  pp_recetario(FormaUso).
                   
 %##################### METODO PRINCIPAL #########################       
     start :-
@@ -83,7 +84,7 @@ mostrarImagen(V,D,M):- new(I, image(V)),
                         ]),
                     %Mostrar_medicamento_que_produce_la_planta
                     send_list(Iniciar1,append,
-                        [menu_item('Plantas segun sus propiedades',message(@prolog,ask_propiedad_plantas))
+                        [menu_item('Plantas segun su efecto',message(@prolog,ask_propiedad_plantas))
                         ]),
                     send_list(Iniciar1, append,
                         [menu_item('Listar elementos de las plantas', message(@prolog, pp_listar_elementos))
@@ -93,11 +94,11 @@ mostrarImagen(V,D,M):- new(I, image(V)),
                         ]),
                     %mostrar_lista_de_propiedades_y_efectos_de_las_plantas
                     send_list(Iniciar1, append,
-                        [menu_item('Listar elementos propiedades y sus efectos', message(@prolog, pp_listar_propiedades_efectos))
+                        [menu_item('Listar propiedades y sus efectos', message(@prolog, pp_listar_propiedades_efectos))
                         ]),
                     %Mostar_enfermedades_que_cura_x_plnata
                     send_list(Iniciar1,append,
-                        [menu_item('Enfermedades cuaradas por (Planta)',message(@prolog,ask_name_enfermedades_curadas_por))
+                        [menu_item('Enfermedades cuaradas una panta',message(@prolog,ask_name_enfermedades_curadas_por))
                         ]),
                     %Buscar_significado_de_los_terminos
                     send_list(Iniciar1,append,
@@ -124,8 +125,19 @@ mostrarImagen(V,D,M):- new(I, image(V)),
                     send_list(Iniciar1, append,
                         [menu_item('Botiquin', message(@prolog, pp_botiquin))
                         ]),
+                    send_list(Iniciar1, append,
+                        [menu_item('Modos de preparacion', message(@prolog, pp_ask_forma_uso))
+                        ]),
+                    %mostrar lista de nombre de la planta y su nombre cientifico
+                    send_list(Iniciar1, append,
+                        [menu_item('Nombre cientifico de las plantas', message(@prolog, pp_listar_planta_y_nombre_cientifico))
+                        ]),
+                    %mostrar lista de planta y su efecto en el cuerpo
+                    send_list(Iniciar1, append,
+                        [menu_item('Lista de plantas y sus efectos', message(@prolog, pp_listar_planta_efecto))
+                        ]),    
             mostrarImagen('C:/Prolog/img/0_Yerberito.jpg',D,Menu),
-            send(D,open,point(0,0)),
+            send(D,open,point(100,100)),
             consult('C:/Prolog/Data.pl'),
             nl.
 
@@ -134,7 +146,8 @@ mostrarImagen(V,D,M):- new(I, image(V)),
         %Datos 
         nombre(Planta, Nombre),
         planta_origen(Planta, Origen),
-        efectos_planta(Planta, Efectos),
+        %efectos_planta(Planta, Efectos),
+        findall(Efecto, efecto_de_la_planta(Planta, Efecto), Efectos),
         findall(Medicamento, planta_obtiene(Planta, Medicamento), Medicamentos),
         findall(FormaUso, se_usa_como(Planta, FormaUso), FormasUso),
 
@@ -165,19 +178,17 @@ mostrarImagen(V,D,M):- new(I, image(V)),
         atomic_list_concat(Medicamentos, '\n', MedicamentosStr),
         atomic_list_concat(FormasUso, '\n', FormasUsoStr),
 
-        %MostrarEtiquetaDeMalestaresParaTratar
         send(D, display, text('Enfermedades que cura:', left, bold), point(10,170)), nl,
         send(D, display, text(EnfermedadesStr, left, normal), point(10,185)),
 
-        %MostrarEtiquetaDeMalestaresParaTratar
-        send(D, display, text('Efectos:', left, bold), point(200,170)), nl,
-        send(D, display, text(EfectosStr, left, normal), point(200,185)),
+        send(D, display, text('Medicamentos que produce:', left, bold), point(200,170)),nl,
+        send(D, display, text(MedicamentosStr, left, normal), point(10,185)),
 
-        send(D, display, text('Medicamentos que produce:', left, bold), point(10,270)),nl,
-        send(D, display, text(MedicamentosStr, left, normal), point(10,285)),
+        send(D, display, text('Efectos:', left, bold), point(200,230)), nl,
+        send(D, display, text(EfectosStr, left, normal), point(200,245)),
 
-        send(D, display, text('Formas de uso:', left, bold), point(200,270)),nl,
-        send(D, display, text(FormasUsoStr, left, normal), point(200,285)),    
+        send(D, display, text('Formas de uso:', left, bold), point(200,300)),nl,
+        send(D, display, text(FormasUsoStr, left, normal), point(200,315)),    
         
         %MostrarLaImagenDeLaPlanta
         unirPlantaImagen(Planta, Foto),
@@ -276,19 +287,21 @@ mostrarImagen(V,D,M):- new(I, image(V)),
 %##################### LISTA DE PLANTAS POR PROPIEDAD #########################       
     pp_listar_plantas_propiedad(Propiedad):-
         %Datos 
-        plantas_propiedad(Propiedad, Plantas),
+        findall(Planta, efecto_de_la_planta(Planta, Propiedad), Plantas),
         atomic_list_concat(Plantas, '\n', PlantasStr),
 
-        atom_concat('Plantas que son: ', Propiedad, Titulo),
+        atom_concat('Plantas con efecto: ', Propiedad, Titulo),
         new(D, dialog(Titulo)),
         send(D, size, size(400,500)),
         send(D, colour, colour(black)),
-        
-        %BuscarTodasLasVecesQueLaPlantaEstaLigadaConUnMalestar
-        send(D, open, point(300, 200)),
 
-        send(D, display, text('Plantas: ', left, bold), point(10,15)),
-        send(D, display, text(PlantasStr, left, normal), point(20,30)).
+        send(D, display, text(Titulo, left, bold), point(10,10)),
+        new(W, window("Plantas segun su efecto", size(370, 470))),
+        send(W, scrollbars, vertical),  % Agregar barra de scroll vertical
+        send(W, display, text(PlantasStr, left, normal), point(10, 10)),
+        %Agregar la ventana con scroll al diálogo
+        send(D, append, W),
+        send(D, open, point(300, 200)).
 
 
 %##################### LISTA DE PROPIEDADES Y EFECTOS #########################       
@@ -354,7 +367,7 @@ mostrarImagen(V,D,M):- new(I, image(V)),
         plantas_que_producen_medicamentos(Plantas),
 
         %Crear una ventana con scroll
-        send(D, display, text('Plantas medicinales: ', left, normal), point(10, 10)),
+        send(D, display, text('Plantas que producen medicamentos: ', left, normal), point(10, 10)),
         
         %Agregar la ventana con scroll al diálogo
         new(W, window('Plantas', size(380, 400))),
@@ -386,18 +399,18 @@ mostrarImagen(V,D,M):- new(I, image(V)),
         send(D, open, point(300, 200)),
 
         %MostrarPlantaSeguidoDelNombre
-        send(D, display, text('Planta: ', center, normal), point(200,35)),
-        send(D, display, text(Planta, center, normal), point(270,35)),
+        send(D, display, text('Planta: ', left, normal), point(200,35)),
+        send(D, display, text(Planta, left, normal), point(270,35)),
         
         %MostrarEtiquetaDeMalestaresParaTratar
-        send(D, display, text('---Ayuda a tratar/beneficiar---', center, normal), point(200,60)),
+        send(D, display, text('Enfermedades que combate', left, normal), point(200,60)),
         nl,
         
         %ConvertirListaDeEnfermedadesAStringConInterlineado
         atomic_list_concat(Enfermedades, '\n', EnfermedadesStr),
         
         %MostrarLosResultadosDeLaListaEnLaVentana
-        send(D, display, text(EnfermedadesStr, center, normal), point(200,80)),
+        send(D, display, text(EnfermedadesStr, left, normal), point(200,80)),
         %MostrarLaImagenDeLaPlanta
         unirPlantaImagen(Planta, Foto),
         mostrarImagen(Foto, D, Menu),
@@ -542,3 +555,100 @@ mostrarImagen(V,D,M):- new(I, image(V)),
         
         %Abrir el diálogo
         send(D, open, point(300, 200)).        
+
+%##################### Información sobre un aforma de uso #########################       
+    pp_recetario(FormaUso):-
+        %Datos 
+        ingredientes(FormaUso, Ingredientes),
+        parte_planta(FormaUso, Partes),
+        tiempo(FormaUso, Tiempo),
+        administracion(FormaUso, Administracion),
+        instrucciones(FormaUso, Instrucciones),
+
+        atom_concat('Modo de preparacin de ', FormaUso, Titulo),
+        new(D, dialog(Titulo)),
+        send(D, size, size(500,500)),
+        send(D, colour, colour(black)),
+        
+        send(D, open, point(100, 100)),
+
+        atom_concat('Modo de preparacin de ', FormaUso, Header),
+        send(D, display, text(Header, left, bold), point(10,10)),
+
+        send(D, display, text('Ingredientes: ', left, bold), point(10,30)),
+        send(D, display, text(Ingredientes, left, normal), point(15,50)),
+
+        send(D, display, text('Partes utilizadas: ', left, bold), point(110,30)),
+        send(D, display, text(Partes, left, normal), point(115,50)),
+        
+        send(D, display, text('Tiempo: ', left, bold), point(250,30)),
+        send(D, display, text(Tiempo, left, normal), point(255,50)),
+        
+        send(D, display, text('Via de administracion: ', left, bold), point(330,30)),
+        send(D, display, text(Administracion, left, normal), point(335,50)),
+
+        send(D, display, text('Instrcciones', left, bold), point(10,100)),
+        send(D, display, text(Instrucciones, left, normal), point(15,120)).
+
+%##################### LISTA DE PLANTAS y NOMBRE CIENTIFICO #########################       
+        pp_listar_planta_y_nombre_cientifico:-
+            new(D, dialog('Nombre cientifico de plantas')),
+            send(D, size, size(500, 400)),
+            send(D, colour, colour(black)),
+            
+            % Buscar todas las propiedades y sus efectos
+            findall([Planta, NombreCientifico], nombre(Planta, NombreCientifico), Resultados),
+            
+            % Crear una ventana con scroll
+            send(D, append, new(text('Nombre coloquial de la planta     ->   Nombre cientifico:', center, normal))),
+            new(W, window('Nombre coloquial de la planta     ->   Nombre cientifico:', size(480, 400))),
+            send(W, scrollbars, vertical),  % Agregar barra de scroll vertical
+            
+            % Mostrar los resultados en la ventana con scroll
+            mostar_resultado_planta_nombreCientifico(Resultados, W, 10),
+            
+            % Agregar la ventana con scroll al diálogo
+            send(D, append, W),
+            
+            % Abrir el diálogo
+            send(D, open, point(300, 200)).
+            
+            % Mostrar los resultados en la ventana aplicando recursividad.
+            mostar_resultado_planta_nombreCientifico([], _, _).
+            mostar_resultado_planta_nombreCientifico([[Planta, NombreCientifico] | Resto], W, Y) :-
+                send(W, display, text(Planta, left, normal), point(10, Y)),
+                send(W, display, text(NombreCientifico, left, normal), point(230, Y)),
+                NewY is Y + 20,  % Incrementar la posición Y para la siguiente línea
+                mostar_resultado_planta_nombreCientifico(Resto, W, NewY).
+
+
+%##################### LISTA DE PLANTAS CON SUS EFECTOS #########################       
+        pp_listar_planta_efecto:-
+            new(D, dialog('Planta y su efecto')),
+            send(D, size, size(400, 400)),
+            send(D, colour, colour(black)),
+            
+            % Buscar todas las propiedades y sus efectos
+            findall([Planta, Efecto], efecto_de_la_planta(Planta, Efecto), Resultados),
+            
+            % Crear una ventana con scroll
+            send(D, append, new(text('Planta y su efecto:', center, normal))),
+            new(W, window('Planta y su efecto:', size(380, 370))),
+            send(W, scrollbars, vertical),  % Agregar barra de scroll vertical
+            
+            % Mostrar los resultados en la ventana con scroll
+            mostrar_resultado_planta_y_efecto(Resultados, W, 10),
+            
+            % Agregar la ventana con scroll al diálogo
+            send(D, append, W),
+            
+            % Abrir el diálogo
+            send(D, open, point(300, 200)).
+            
+            % Mostrar los resultados en la ventana aplicando recursividad.
+            mostrar_resultado_planta_y_efecto([], _, _).
+            mostrar_resultado_planta_y_efecto([[Planta, Efecto] | Resto], W, Y) :-
+                send(W, display, text(Planta, left, normal), point(10, Y)),
+                send(W, display, text(Efecto, left, normal), point(230, Y)),
+                NewY is Y + 20,  % Incrementar la posición Y para la siguiente línea
+                mostrar_resultado_planta_y_efecto(Resto, W, NewY).
